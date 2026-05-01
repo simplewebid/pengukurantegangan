@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prosedur Praktikum Pengukuran Listrik Job 3 — Langkah kerja pengukuran tegangan AC dan DC, tabel pengamatan, dan diagram rangkaian FT-UNP." />
+  <meta name="keywords" content="Pengukuran Listrik, Tegangan AC, Tegangan DC, Laboratorium, Teknik Elektro, UNP" />
+  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari — S1 Pendidikan Teknik Elektro UNP" />
+  <meta name="robots" content="index, follow" />
+  <title>Prosedur Praktikum &mdash; PengukuranListrik</title>
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="logoftunp.png" />
+  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
+  <!-- Loading Screen -->
+  <div class="loader-screen" id="loaderScreen" role="status" aria-live="polite" aria-label="Memuat media pembelajaran">
+    <div class="loader-content">
+      <h1 class="loader-brand">PengukuranListrik</h1>
+      <svg class="loader-wave" viewBox="0 0 320 80" aria-hidden="true" focusable="false">
+        <path d="M0,40 C20,10 40,10 60,40 S100,70 120,40 S160,10 180,40 S220,70 240,40 S280,10 300,40 S320,70 340,40"></path>
+      </svg>
+      <p class="loader-text">Memuat Media Pembelajaran...</p>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
+        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
+        </svg>
+      </a>
+
+      <input type="checkbox" class="menu-toggle" id="menuToggle" aria-label="Buka menu navigasi" />
+      <label for="menuToggle" class="menu-button" aria-hidden="true"><span></span></label>
+
+      <nav class="nav-wrap" aria-label="Navigasi Utama">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="materi.html">Materi</a></li>
+          <li><a href="prosedur.html" class="is-active">Prosedur</a></li>
+          <li><a href="simulasi.html">Simulasi</a></li>
+          <li><a href="simulasi-kesalahan.html">Kesalahan</a></li>
+          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="tentang.html">Tentang</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="prosedur" class="section" data-section>
+      <div class="container">
+        <div style="margin-bottom:2rem">
+          <span class="badge">Langkah Kerja</span>
+          <h2 class="section-title" style="margin-top:0.5rem">Prosedur Praktikum</h2>
+          <p class="section-subtitle">Langkah kerja pengukuran tegangan AC dan DC sesuai Jobsheet Job 3</p>
+        </div>
+
+        <!-- STEPPER AC -->
+        <div class="stepper-block" id="stepperAC">
+          <div class="stepper-header orange">
+            <h3>Percobaan 1 &mdash; Pengukuran Tegangan AC</h3>
+            <p>Menggunakan Transformator 220/6V CT</p>
+          </div>
+          <div class="stepper-progress">
+            <span class="stepper-progress-label" id="acStepLabel">Langkah 1 dari 6</span>
+            <div class="stepper-progress-bar">
+              <div class="stepper-progress-fill" id="acProgressFill" style="width:16.67%"></div>
+            </div>
+          </div>
+          <div class="stepper-dots" id="acDots"></div>
+          <div class="stepper-body">
+            <div class="step-pane is-active" data-stepper-ac="0">
+              <span class="step-pane-icon"><i class="fas fa-wrench"></i></span>
+              <h4>Langkah 1 &mdash; Persiapan Alat</h4>
+              <p>Siapkan Multimeter Sanwa, Transformator 220/6V double tegangan sekunder (CT), dan kabel penghubung secukupnya. Pastikan semua alat dalam kondisi baik dan tidak ada kerusakan fisik.</p>
+              <div class="step-success"><span><i class="fas fa-check-circle"></i></span><span>Periksa kondisi fisik setiap alat sebelum digunakan.</span></div>
+            </div>
+            <div class="step-pane" data-stepper-ac="1">
+              <span class="step-pane-icon"><i class="fas fa-cog"></i></span>
+              <h4>Langkah 2 &mdash; Setting Multimeter</h4>
+              <p>Putar selektor ke posisi ACV. Atur batas ukur <strong>50 Volt</strong> (lebih tinggi dari tegangan sumber) untuk memastikan jarum tidak melewati batas skala.</p>
+              <div class="step-warning"><span><i class="fas fa-exclamation-triangle"></i></span><span>Pastikan selector ACV sebelum menghubungkan ke sumber tegangan!</span></div>
+            </div>
+            <div class="step-pane" data-stepper-ac="2">
+              <span class="step-pane-icon"><i class="fas fa-plug"></i></span>
+              <h4>Langkah 3 &mdash; Merangkai Rangkaian</h4>
+              <p>Hubungkan kumparan primer trafo ke sumber tegangan 220V. Hubungkan probe voltmeter ke terminal sekunder trafo sesuai tabel pengamatan. Diagram rangkaian:</p>
+              <div class="circuit-svg-wrap">
+                <svg viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram rangkaian AC dengan Transformator CT" width="480" height="140">
+                  <rect x="10" y="40" width="72" height="60" rx="8" fill="#fff3e0" stroke="#ff6f00" stroke-width="1.5"/>
+                  <text x="46" y="66" text-anchor="middle" font-size="10" font-weight="bold" fill="#ff6f00">220V</text>
+                  <text x="46" y="80" text-anchor="middle" font-size="10" fill="#ff6f00">AC ~</text>
+                  <text x="46" y="108" text-anchor="middle" font-size="8" fill="#777">Sumber</text>
+                  <line x1="82" y1="58" x2="130" y2="58" stroke="#333" stroke-width="1.5"/>
+                  <line x1="82" y1="82" x2="130" y2="82" stroke="#333" stroke-width="1.5"/>
+                  <rect x="130" y="30" width="100" height="80" rx="8" fill="#e8eaf6" stroke="#1a237e" stroke-width="1.5"/>
+                  <text x="180" y="60" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a237e">TRAFO</text>
+                  <text x="180" y="73" text-anchor="middle" font-size="8" fill="#1a237e">220 / 6V CT</text>
+                  <path d="M140 65 Q148 55 156 65 Q164 75 172 65" stroke="#1a237e" stroke-width="1.5" fill="none"/>
+                  <path d="M188 65 Q196 55 204 65 Q212 75 220 65" stroke="#ff6f00" stroke-width="1.5" fill="none"/>
+                  <line x1="230" y1="45" x2="290" y2="45" stroke="#333" stroke-width="1.5"/>
+                  <line x1="230" y1="70" x2="290" y2="70" stroke="#10b981" stroke-width="2"/>
+                  <line x1="230" y1="95" x2="290" y2="95" stroke="#333" stroke-width="1.5"/>
+                  <circle cx="290" cy="45" r="5" fill="#ef4444"/>
+                  <text x="300" y="49" font-size="9" font-weight="bold" fill="#ef4444">12V</text>
+                  <circle cx="290" cy="70" r="5" fill="#10b981"/>
+                  <text x="300" y="74" font-size="9" font-weight="bold" fill="#10b981">CT</text>
+                  <circle cx="290" cy="95" r="5" fill="#1a237e"/>
+                  <text x="300" y="99" font-size="9" font-weight="bold" fill="#1a237e">6V</text>
+                  <rect x="370" y="48" width="90" height="44" rx="8" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+                  <text x="415" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">V</text>
+                  <text x="415" y="82" text-anchor="middle" font-size="8" fill="#059669">Voltmeter</text>
+                  <line x1="320" y1="45" x2="370" y2="60" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+                  <line x1="320" y1="95" x2="370" y2="80" stroke="#1a237e" stroke-width="1.5" stroke-dasharray="4 2"/>
+                  <text x="335" y="44" font-size="8" fill="#ef4444">+</text>
+                  <text x="335" y="92" font-size="8" fill="#1a237e">&minus;</text>
+                </svg>
+              </div>
+            </div>
+            <div class="step-pane" data-stepper-ac="3">
+              <span class="step-pane-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+              <h4>Langkah 4 &mdash; Konsultasi Dosen</h4>
+              <p>Konsultasikan rangkaian kepada dosen atau teknisi sebelum menghidupkan sumber tegangan. Pastikan rangkaian telah diperiksa dan disetujui.</p>
+              <div class="step-warning"><span><i class="fas fa-exclamation-circle"></i></span><span>WAJIB dikonsultasikan terlebih dahulu sebelum menghidupkan sumber!</span></div>
+            </div>
+            <div class="step-pane" data-stepper-ac="4">
+              <span class="step-pane-icon"><i class="fas fa-chart-bar"></i></span>
+              <h4>Langkah 5 &mdash; Pengukuran</h4>
+              <p>Hidupkan sumber tegangan. Ukur tegangan pada setiap kombinasi terminal sesuai tabel pengamatan di bawah. Baca dan catat penunjukan jarum multimeter dengan teliti.</p>
+              <div class="step-success"><span><i class="fas fa-lightbulb"></i></span><span>Baca jarum pada skala ACV. Hitung: Hasil = Faktor Skala &times; Penunjukan.</span></div>
+            </div>
+            <div class="step-pane" data-stepper-ac="5">
+              <span class="step-pane-icon"><i class="fas fa-check-circle"></i></span>
+              <h4>Langkah 6 &mdash; Selesai</h4>
+              <p>Matikan sumber tegangan. Lepaskan semua kabel rangkaian. Kembalikan semua peralatan ke tempatnya dengan rapi dan benar sesuai prosedur laboratorium.</p>
+              <div class="step-success"><span><i class="fas fa-check-circle"></i></span><span>Percobaan 1 selesai. Lanjutkan ke Percobaan 2 &mdash; Tegangan DC.</span></div>
+            </div>
+          </div>
+          <div class="stepper-actions">
+            <button class="btn-secondary" id="acPrev" onclick="stepperNav('ac','prev')" disabled>&larr; Sebelumnya</button>
+            <button class="btn-primary" id="acNext" onclick="stepperNav('ac','next')">Selanjutnya &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEPPER DC -->
+        <div class="stepper-block" id="stepperDC">
+          <div class="stepper-header orange">
+            <h3>Percobaan 2 &mdash; Pengukuran Tegangan DC</h3>
+            <p>Menggunakan Power Supply Searah</p>
+          </div>
+          <div class="stepper-progress">
+            <span class="stepper-progress-label" id="dcStepLabel">Langkah 1 dari 6</span>
+            <div class="stepper-progress-bar">
+              <div class="stepper-progress-fill" id="dcProgressFill" style="width:16.67%"></div>
+            </div>
+          </div>
+          <div class="stepper-dots" id="dcDots"></div>
+          <div class="stepper-body">
+            <div class="step-pane is-active" data-stepper-dc="0">
+              <span class="step-pane-icon"><i class="fas fa-wrench"></i></span>
+              <h4>Langkah 1 &mdash; Persiapan Alat</h4>
+              <p>Siapkan Multimeter Sanwa, Power Supply DC (PSU), kabel penghubung, dan rheostat. Periksa kondisi semua alat sebelum digunakan.</p>
+              <div class="step-success"><span><i class="fas fa-check-circle"></i></span><span>Pastikan semua alat dalam kondisi baik sebelum memulai.</span></div>
+            </div>
+            <div class="step-pane" data-stepper-dc="1">
+              <span class="step-pane-icon"><i class="fas fa-cog"></i></span>
+              <h4>Langkah 2 &mdash; Setting Multimeter</h4>
+              <p>Putar selektor ke posisi <strong>DCV</strong>. Atur batas ukur <strong>50 Volt</strong>. Pastikan batas ukur lebih besar dari tegangan yang akan diukur.</p>
+              <div class="step-warning"><span><i class="fas fa-exclamation-triangle"></i></span><span>Perhatikan polaritas probe! Probe merah (+) ke positif PSU, hitam (&minus;) ke negatif.</span></div>
+            </div>
+            <div class="step-pane" data-stepper-dc="2">
+              <span class="step-pane-icon"><i class="fas fa-plug"></i></span>
+              <h4>Langkah 3 &mdash; Merangkai Rangkaian</h4>
+              <p>Hubungkan PSU DC ke saklar (S), kemudian ke rheostat sebagai beban, dengan voltmeter terhubung paralel pada titik pengukuran.</p>
+              <div class="circuit-svg-wrap">
+                <svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram rangkaian DC dengan PSU" width="520" height="120">
+                  <rect x="10" y="30" width="72" height="60" rx="8" fill="#e8f5e9" stroke="#10b981" stroke-width="1.5"/>
+                  <text x="46" y="57" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">PSU</text>
+                  <text x="46" y="71" text-anchor="middle" font-size="9" fill="#059669">DC &#x23E3;</text>
+                  <text x="46" y="98" text-anchor="middle" font-size="8" fill="#777">Power Supply</text>
+                  <line x1="82" y1="50" x2="130" y2="50" stroke="#ef4444" stroke-width="1.5"/>
+                  <line x1="82" y1="70" x2="130" y2="120" stroke="#1a1a2e" stroke-width="1.5"/>
+                  <rect x="130" y="38" width="50" height="28" rx="6" fill="#fff" stroke="#333" stroke-width="1.5"/>
+                  <text x="155" y="57" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">S</text>
+                  <line x1="180" y1="50" x2="220" y2="50" stroke="#ef4444" stroke-width="1.5"/>
+                  <rect x="220" y="36" width="80" height="28" rx="6" fill="#fff9e6" stroke="#ff9800" stroke-width="1.5"/>
+                  <text x="260" y="53" text-anchor="middle" font-size="9" font-weight="bold" fill="#e65100">Rheostat</text>
+                  <text x="260" y="65" text-anchor="middle" font-size="8" fill="#e65100">R var</text>
+                  <line x1="300" y1="50" x2="350" y2="50" stroke="#ef4444" stroke-width="1.5"/>
+                  <line x1="260" y1="64" x2="260" y2="90" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4 2"/>
+                  <rect x="230" y="90" width="60" height="26" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+                  <text x="260" y="107" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">V</text>
+                  <line x1="300" y1="64" x2="290" y2="90" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4 2"/>
+                  <line x1="350" y1="50" x2="440" y2="50" stroke="#ef4444" stroke-width="1.5"/>
+                  <line x1="440" y1="50" x2="440" y2="120" stroke="#1a1a2e" stroke-width="1.5"/>
+                  <line x1="130" y1="120" x2="440" y2="120" stroke="#1a1a2e" stroke-width="1.5"/>
+                  <text x="100" y="47" font-size="8" fill="#ef4444">+</text>
+                  <text x="100" y="72" font-size="8" fill="#333">&minus;</text>
+                </svg>
+              </div>
+            </div>
+            <div class="step-pane" data-stepper-dc="3">
+              <span class="step-pane-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+              <h4>Langkah 4 &mdash; Konsultasi Dosen</h4>
+              <p>Konsultasikan rangkaian kepada dosen atau teknisi laboratorium sebelum menghidupkan PSU. Tunggu persetujuan sebelum melanjutkan.</p>
+              <div class="step-warning"><span><i class="fas fa-exclamation-circle"></i></span><span>WAJIB dikonsultasikan terlebih dahulu sebelum ON!</span></div>
+            </div>
+            <div class="step-pane" data-stepper-dc="4">
+              <span class="step-pane-icon"><i class="fas fa-chart-bar"></i></span>
+              <h4>Langkah 5 &mdash; Pengukuran</h4>
+              <p>Hidupkan PSU. Atur tegangan output PSU mulai dari <strong>2 Volt</strong> secara bertahap. Catat setiap penunjukan jarum multimeter pada tabel pengamatan di bawah.</p>
+              <div class="step-success"><span><i class="fas fa-lightbulb"></i></span><span>Catat minimal 10 data dengan tegangan berbeda sesuai tabel pengamatan.</span></div>
+            </div>
+            <div class="step-pane" data-stepper-dc="5">
+              <span class="step-pane-icon"><i class="fas fa-check-circle"></i></span>
+              <h4>Langkah 6 &mdash; Selesai</h4>
+              <p>Matikan PSU dan lepaskan semua kabel rangkaian. Rapikan semua peralatan ke tempat semula sesuai prosedur laboratorium.</p>
+              <div class="step-success"><span><i class="fas fa-check-circle"></i></span><span>Percobaan 2 selesai. Lanjutkan mengisi tabel pengamatan DC di bawah.</span></div>
+            </div>
+          </div>
+          <div class="stepper-actions">
+            <button class="btn-secondary" id="dcPrev" onclick="stepperNav('dc','prev')" disabled>&larr; Sebelumnya</button>
+            <button class="btn-primary" id="dcNext" onclick="stepperNav('dc','next')">Selanjutnya &rarr;</button>
+          </div>
+        </div>
+
+        <!-- TABLE AC -->
+        <div class="obs-table-wrap obs-table-wrap--orange">
+          <div class="obs-table-header">
+            <h3 class="obs-table-title"><i class="fas fa-clipboard-list"></i> Tabel Pengamatan 1 &mdash; Tegangan AC</h3>
+            <div class="obs-table-actions">
+              <button class="btn-table reset" onclick="resetTable('tableAC')"><i class="fas fa-trash"></i> Reset Tabel</button>
+              <button class="btn-table print" onclick="window.print()"><i class="fas fa-print"></i> Cetak Tabel</button>
+            </div>
+          </div>
+          <div class="obs-scroll">
+            <table class="obs-table" id="tableAC">
+              <thead>
+                <tr>
+                  <th class="cell-no">No</th>
+                  <th>Terminal</th>
+                  <th>Batas Ukur (V)</th>
+                  <th>Penunjukan Jarum (V)</th>
+                  <th>Faktor Skala</th>
+                  <th>Hasil Ukur (V)</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyAC"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TABLE DC -->
+        <div class="obs-table-wrap obs-table-wrap--orange">
+          <div class="obs-table-header">
+            <h3 class="obs-table-title"><i class="fas fa-clipboard-list"></i> Tabel Pengamatan 2 &mdash; Tegangan DC</h3>
+            <div class="obs-table-actions">
+              <button class="btn-table reset" onclick="resetTable('tableDC')"><i class="fas fa-trash"></i> Reset Tabel</button>
+              <button class="btn-table print" onclick="window.print()"><i class="fas fa-print"></i> Cetak Tabel</button>
+            </div>
+          </div>
+          <div class="obs-scroll">
+            <table class="obs-table" id="tableDC">
+              <thead>
+                <tr>
+                  <th class="cell-no">No</th>
+                  <th>Output PSU (V)</th>
+                  <th>Batas Ukur (V)</th>
+                  <th>Penunjukan Jarum (V)</th>
+                  <th>Faktor Skala</th>
+                  <th>Hasil Ukur (V)</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDC"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- LAPORAN PRAKTIKUM SECTION -->
+        <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid rgba(17,17,17,0.12)">
+          <h3 style="margin-bottom:1rem"><i class="fas fa-file-pdf"></i> Laporan Praktikum</h3>
+          <p style="margin-bottom:1.5rem; color:var(--text-muted)">Buat laporan dari hasil pengamatan yang telah diisi pada tabel di atas untuk dijadikan dokumentasi.</p>
+          <div style="display:flex; gap:1rem; flex-wrap:wrap">
+            <button class="btn-primary" onclick="generateReport()" style="flex:1; min-width:200px">
+              <i class="fas fa-file-alt"></i> Buat Laporan
+            </button>
+            <button class="btn-secondary" onclick="printReport()" style="flex:1; min-width:200px">
+              <i class="fas fa-print"></i> Cetak Laporan
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    &#8679;
+  </button>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <!-- Left column -->
+        <div>
+          <div class="footer-brand">
+            <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="footer-logo">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
+            </svg>
+            Media Pembelajaran Interaktif
+          </div>
+          <p class="footer-desc">
+            <span class="footer-row">
+              <i class="fas fa-book"></i>
+              <span class="footer-key">Mata Kuliah</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Praktek Pengukuran Listrik</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-university"></i>
+              <span class="footer-key">Institusi</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Universitas Negeri Padang</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-flask"></i>
+              <span class="footer-key">Laboratorium</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Instrumentasi dan Pengukuran FT-UNP</span>
+            </span>
+          </p>
+        </div>
+        <!-- Right column -->
+        <div>
+          <p class="footer-col-title">Tim Pengembang</p>
+          <ul class="footer-team-list">
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Afri Ansyah</span>
+              <span class="footer-nim">25063002</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</span>
+              <span class="footer-nim">25063227</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Suci Wulandari</span>
+              <span class="footer-nim">25063029</span>
+            </li>
+          </ul>
+          <p style="margin:0.75rem 0 0;font-size:0.82rem;color:#6e7681">
+            S1 Pendidikan Teknik Elektro &mdash; UNP 2026
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        &copy; 2026 &mdash; Dikembangkan sebagai Media Pembelajaran Interaktif Mata Kuliah Praktek Pengukuran Listrik
+        | Departemen Teknik Elektro FT-UNP
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Media Pembelajaran Interaktif Praktek Pengukuran Listrik — Job 3: Pengukuran Tegangan AC & DC untuk Laboratorium Instrumentasi dan Pengukuran FT-UNP." />
+  <meta name="keywords" content="Pengukuran Listrik, Tegangan AC, Tegangan DC, Laboratorium, Teknik Elektro, UNP" />
+  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari — S1 Pendidikan Teknik Elektro UNP" />
+  <meta name="robots" content="index, follow" />
+  <title>Beranda — Praktek PengukuranListrik</title>
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="logoftunp.png" />
+  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
+  <!-- Loading Screen -->
+  <div class="loader-screen" id="loaderScreen" role="status" aria-live="polite" aria-label="Memuat media pembelajaran">
+    <div class="loader-content">
+      <h1 class="loader-brand">PengukuranListrik</h1>
+      <svg class="loader-wave" viewBox="0 0 320 80" aria-hidden="true" focusable="false">
+        <path d="M0,40 C20,10 40,10 60,40 S100,70 120,40 S160,10 180,40 S220,70 240,40 S280,10 300,40 S320,70 340,40"></path>
+      </svg>
+      <p class="loader-text">Memuat Media Pembelajaran...</p>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
+        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
+        </svg>
+      </a>
+
+      <input type="checkbox" class="menu-toggle" id="menuToggle" aria-label="Buka menu navigasi" />
+      <label for="menuToggle" class="menu-button" aria-hidden="true"><span></span></label>
+
+      <nav class="nav-wrap" aria-label="Navigasi Utama">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html" class="is-active">Beranda</a></li>
+          <li><a href="materi.html">Materi</a></li>
+          <li><a href="prosedur.html">Prosedur</a></li>
+          <li><a href="simulasi.html">Simulasi</a></li>
+          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="tentang.html">Tentang</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <!-- BERANDA -->
+    <section class="hero section" id="beranda" data-section>
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Pengukuran Tegangan Listrik AC & DC</h1>
+          <p class="hero-subtitle">
+            Media Pembelajaran Interaktif berbasis Web — Laboratorium Instrumentasi dan Pengukuran FT-UNP
+          </p>
+
+          <div class="hero-actions">
+            <a href="materi.html" class="btn-primary">Mulai Belajar</a>
+            <a href="prosedur.html" class="btn-secondary">Lihat Prosedur</a>
+          </div>
+
+          <div class="stats-grid grid-2" aria-label="Ringkasan praktikum">
+            <article class="card stat-card">
+              <p class="stat-label"><i class="fas fa-bullseye"></i> Tujuan</p>
+              <p class="stat-value">3 Capaian Pembelajaran</p>
+            </article>
+            <article class="card stat-card">
+              <p class="stat-label"><i class="fas fa-wrench"></i> Alat</p>
+              <p class="stat-value">4 Alat Utama</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" aria-labelledby="tentangTitle">
+      <div class="container">
+        <div class="card" style="padding:2rem">
+          <h2 class="section-title" id="tentangTitle" style="margin-bottom:1.25rem">
+            <i class="fas fa-info-circle"></i> Tentang Praktikum
+          </h2>
+          <p style="margin:0 0 0.85rem;line-height:1.8;color:var(--text-muted)">
+            Praktikum <strong>Pengukuran Tegangan Listrik AC & DC</strong> merupakan bagian dari
+            mata kuliah Praktek Pengukuran Listrik di Laboratorium Instrumentasi dan Pengukuran
+            Fakultas Teknik Universitas Negeri Padang. Mahasiswa akan mempelajari cara mengukur
+            tegangan bolak-balik (AC) dan tegangan searah (DC) menggunakan multimeter analog secara
+            benar dan aman.
+          </p>
+          <div class="home-about-grid">
+            <div style="background:var(--background);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid rgba(0,0,0,0.07)">
+              <div style="font-size:2rem;margin-bottom:0.5rem"><i class="fas fa-bolt"></i></div>
+              <p style="margin:0;font-weight:700;font-size:0.95rem">Tegangan AC</p>
+              <p style="margin:0.25rem 0 0;font-size:0.82rem;color:var(--text-muted)">Pengukuran menggunakan transformator 220/6V CT</p>
+            </div>
+            <div style="background:var(--background);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid rgba(0,0,0,0.07)">
+              <div style="font-size:2rem;margin-bottom:0.5rem"><i class="fas fa-plug"></i></div>
+              <p style="margin:0;font-weight:700;font-size:0.95rem">Tegangan DC</p>
+              <p style="margin:0.25rem 0 0;font-size:0.82rem;color:var(--text-muted)">Pengukuran menggunakan power supply searah</p>
+            </div>
+            <div style="background:var(--background);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid rgba(0,0,0,0.07)">
+              <div style="font-size:2rem;margin-bottom:0.5rem"><i class="fas fa-hard-hat"></i></div>
+              <p style="margin:0;font-weight:700;font-size:0.95rem">K3 Laboratorium</p>
+              <p style="margin:0.25rem 0 0;font-size:0.82rem;color:var(--text-muted)">Prosedur keselamatan kerja selama praktikum</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" aria-labelledby="capaianTitle">
+      <div class="container">
+        <h2 class="section-title" id="capaianTitle" style="text-align:center;margin-bottom:1.5rem">Capaian Pembelajaran</h2>
+        <div class="grid-3">
+          <div class="card" style="padding:1.5rem;text-align:center;border-top:4px solid #111111">
+            <div style="width:56px;height:56px;border-radius:50%;background:rgba(17,17,17,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem"><i class="fas fa-bolt"></i></div>
+            <h3 style="margin:0 0 0.5rem;font-size:1rem;color:var(--text-primary)">Mengukur Tegangan AC</h3>
+            <p style="margin:0;font-size:0.88rem;color:var(--text-muted);line-height:1.7">Mampu menggunakan multimeter analog untuk mengukur tegangan AC pada berbagai terminal transformator dengan benar.</p>
+          </div>
+          <div class="card" style="padding:1.5rem;text-align:center;border-top:4px solid #111111">
+            <div style="width:56px;height:56px;border-radius:50%;background:rgba(17,17,17,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem"><i class="fas fa-plug"></i></div>
+            <h3 style="margin:0 0 0.5rem;font-size:1rem;color:var(--text-primary)">Mengukur Tegangan DC</h3>
+            <p style="margin:0;font-size:0.88rem;color:var(--text-muted);line-height:1.7">Mampu mengukur tegangan DC dari power supply dengan memperhatikan polaritas probe dan batas ukur yang tepat.</p>
+          </div>
+          <div class="card" style="padding:1.5rem;text-align:center;border-top:4px solid #111111">
+            <div style="width:56px;height:56px;border-radius:50%;background:rgba(17,17,17,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem"><i class="fas fa-hard-hat"></i></div>
+            <h3 style="margin:0 0 0.5rem;font-size:1rem;color:var(--text-primary)">Menerapkan K3</h3>
+            <p style="margin:0;font-size:0.88rem;color:var(--text-muted);line-height:1.7">Mampu menerapkan prosedur keselamatan dan kesehatan kerja selama kegiatan praktikum di laboratorium listrik.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0" aria-labelledby="alurTitle">
+      <div class="container">
+        <h2 class="section-title" id="alurTitle" style="text-align:center;margin-bottom:1.5rem">Alur Belajar</h2>
+        <div class="home-flow-grid">
+          <a href="materi.html" class="card" style="padding:1.25rem;text-align:center;text-decoration:none;border-top:4px solid #111111">
+            <div style="font-size:1.75rem;margin-bottom:0.5rem"><i class="fas fa-book"></i></div>
+            <p style="margin:0;font-weight:700;font-size:0.95rem">01 Materi</p>
+            <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-muted)">Pelajari teori dasar AC & DC</p>
+          </a>
+          <a href="prosedur.html" class="card" style="padding:1.25rem;text-align:center;text-decoration:none;border-top:4px solid #111111">
+            <div style="font-size:1.75rem;margin-bottom:0.5rem"><i class="fas fa-wrench"></i></div>
+            <p style="margin:0;font-weight:700;font-size:0.95rem">02 Prosedur</p>
+            <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-muted)">Ikuti langkah kerja praktikum</p>
+          </a>
+          <a href="simulasi.html" class="card" style="padding:1.25rem;text-align:center;text-decoration:none;border-top:4px solid #111111">
+            <div style="font-size:1.75rem;margin-bottom:0.5rem"><i class="fas fa-gamepad"></i></div>
+            <p style="margin:0;font-weight:700;font-size:0.95rem">03 Simulasi</p>
+            <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-muted)">Latihan baca alat ukur virtual</p>
+          </a>
+          <a href="kuis.html" class="card" style="padding:1.25rem;text-align:center;text-decoration:none;border-top:4px solid #111111">
+            <div style="font-size:1.75rem;margin-bottom:0.5rem"><i class="fas fa-brain"></i></div>
+            <p style="margin:0;font-weight:700;font-size:0.95rem">04 Kuis</p>
+            <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-muted)">Uji pemahaman 10 soal</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section author-section" aria-labelledby="authorTitle">
+      <div class="container">
+        <div class="card team-wrap">
+          <h2 class="section-title" id="authorTitle">Dikembangkan Oleh</h2>
+          <div class="grid-3" aria-label="Tim Pengembang">
+            <article class="member-card">
+              <h3 class="member-name"><i class="fas fa-user-graduate"></i> Afri Ansyah</h3>
+              <p class="member-nim">NIM 25063002</p>
+              <p class="member-subtitle">S1 Pendidikan Teknik Elektro — UNP 2026</p>
+            </article>
+            <article class="member-card">
+              <h3 class="member-name"><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</h3>
+              <p class="member-nim">NIM 25063027</p>
+              <p class="member-subtitle">S1 Pendidikan Teknik Elektro — UNP 2026</p>
+            </article>
+            <article class="member-card">
+              <h3 class="member-name"><i class="fas fa-user-graduate"></i> Suci Wulandari</h3>
+              <p class="member-nim">NIM 25063029</p>
+              <p class="member-subtitle">S1 Pendidikan Teknik Elektro — UNP 2026</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    &#8679;
+  </button>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <!-- Left column -->
+        <div>
+          <div class="footer-brand">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
+            </svg>
+            Media Pembelajaran Interaktif
+          </div>
+          <p class="footer-desc">
+            <span class="footer-row">
+              <i class="fas fa-book"></i>
+              <span class="footer-key">Mata Kuliah</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Praktek Pengukuran Listrik</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-university"></i>
+              <span class="footer-key">Institusi</span>                                                   
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Universitas Negeri Padang</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-flask"></i>
+              <span class="footer-key">Laboratorium</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Instrumentasi dan Pengukuran FT-UNP</span>
+            </span>
+          </p>
+        </div>
+        <!-- Right column -->
+        <div>
+          <p class="footer-col-title">Tim Pengembang</p>
+          <ul class="footer-team-list">
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Afri Ansyah</span>
+              <span class="footer-nim">25063002</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</span>
+              <span class="footer-nim">25063227</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Suci Wulandari</span>
+              <span class="footer-nim">25063029</span>
+            </li>
+          </ul>
+          <p style="margin:0.75rem 0 0;font-size:0.82rem;color:#6e7681">
+            S1 Pendidikan Teknik Elektro &mdash; UNP 2026
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        &copy; 2026 &mdash; Dikembangkan sebagai Media Pembelajaran Interaktif Mata Kuliah Praktek Pengukuran Listrik
+        | Departemen Teknik Elektro FT-UNP
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

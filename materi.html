@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Materi Teori Pengukuran Listrik Job 3 — Konsep Tegangan AC dan DC, Multimeter Analog, Faktor Skala, dan K3 Laboratorium FT-UNP." />
+  <meta name="keywords" content="Pengukuran Listrik, Tegangan AC, Tegangan DC, Laboratorium, Teknik Elektro, UNP" />
+  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari — S1 Pendidikan Teknik Elektro UNP" />
+  <meta name="robots" content="index, follow" />
+  <title>Materi Teori &mdash; PengukuranListrik</title>
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="logoftunp.png" />
+  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
+  <!-- Loading Screen -->
+  <div class="loader-screen" id="loaderScreen" role="status" aria-live="polite" aria-label="Memuat media pembelajaran">
+    <div class="loader-content">
+      <h1 class="loader-brand">PengukuranListrik</h1>
+      <svg class="loader-wave" viewBox="0 0 320 80" aria-hidden="true" focusable="false">
+        <path d="M0,40 C20,10 40,10 60,40 S100,70 120,40 S160,10 180,40 S220,70 240,40 S280,10 300,40 S320,70 340,40"></path>
+      </svg>
+      <p class="loader-text">Memuat Media Pembelajaran...</p>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
+        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
+        </svg>
+      </a>
+
+      <input type="checkbox" class="menu-toggle" id="menuToggle" aria-label="Buka menu navigasi" />
+      <label for="menuToggle" class="menu-button" aria-hidden="true"><span></span></label>
+
+      <nav class="nav-wrap" aria-label="Navigasi Utama">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="materi.html" class="is-active">Materi</a></li>
+          <li><a href="prosedur.html">Prosedur</a></li>
+          <li><a href="simulasi.html">Simulasi</a></li>
+          <li><a href="simulasi-kesalahan.html">Kesalahan</a></li>
+          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="tentang.html">Tentang</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="materi" class="section" data-section>
+      <div class="container">
+        <div style="margin-bottom:1.5rem">
+          <span class="badge">Teori Dasar</span>
+          <h2 class="section-title" style="margin-top:0.5rem">Materi Pembelajaran</h2>
+          <p class="section-subtitle">Konsep tegangan AC &amp; DC, penggunaan multimeter, dan keselamatan kerja laboratorium.</p>
+        </div>
+
+        <div class="tab-nav" role="tablist" aria-label="Tab materi pembelajaran">
+          <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="tab-konsep" id="btn-konsep" data-tab="tab-konsep">
+            <i class="fas fa-bolt"></i> Konsep AC &amp; DC
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-multimeter" id="btn-multimeter" data-tab="tab-multimeter">
+            <i class="fas fa-wrench"></i> Multimeter &amp; Skala
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-k3" id="btn-k3" data-tab="tab-k3">
+            <i class="fas fa-vest"></i> K3 Praktikum
+          </button>
+        </div>
+
+        <!-- TAB 1 — Konsep Tegangan AC & DC -->
+        <div class="tab-panel is-active" id="tab-konsep" role="tabpanel" aria-labelledby="btn-konsep">
+          <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.1 Visualisasi Gelombang</h3>
+          <div class="oscilloscope-wrap">
+            <div class="osc-card">
+              <div class="osc-label" style="color:#ff6f00">&#x25B6; Tegangan AC &mdash; Bolak Balik</div>
+              <canvas class="osc-canvas" id="canvasAC" aria-label="Animasi gelombang sinus AC"></canvas>
+            </div>
+            <div class="osc-card">
+              <div class="osc-label" style="color:#10b981">&#x25B6; Tegangan DC &mdash; Searah</div>
+              <canvas class="osc-canvas" id="canvasDC" aria-label="Animasi tegangan DC konstan"></canvas>
+            </div>
+          </div>
+
+          <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.2 Perbandingan Tegangan AC vs DC</h3>
+          <div class="table-wrap">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th><span class="tag-ac">Tegangan AC</span></th>
+                  <th><span class="tag-dc">Tegangan DC</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Bentuk Gelombang</td><td>Sinusoidal</td><td>Konstan / Searah</td></tr>
+                <tr><td>Arah Arus</td><td>Bolak-balik</td><td>Satu Arah</td></tr>
+                <tr><td>Nilai Tegangan</td><td>Berubah terhadap waktu</td><td>Tetap</td></tr>
+                <tr><td>Sumber Umum</td><td>PLN, Transformator</td><td>Baterai, Power PSU</td></tr>
+                <tr><td>Rumus Sesaat</td><td>V = Vm sin(&omega;t)</td><td>V = Konstan</td></tr>
+                <tr><td>Nilai RMS</td><td>Vrms = 0.707 &times; Vm</td><td>Vrms = V</td></tr>
+                <tr><td>Simbol Selektor</td><td>ACV (~)</td><td>DCV (&amp;#8993;)</td></tr>
+                <tr><td>Frekuensi</td><td>50 Hz (PLN Indonesia)</td><td>0 Hz</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.3 Rumus-Rumus Penting</h3>
+          <div class="formula-grid formula-grid--black">
+            <div class="formula-card">
+              <p class="formula-expr">V(t) = Vm &times; sin(&omega;t)</p>
+              <ul class="formula-vars">
+                <li><strong>Vm</strong> = Tegangan Maksimum (Volt)</li>
+                <li><strong>&omega;</strong> = 2&pi;f (rad/s)</li>
+                <li><strong>t</strong> = Waktu (sekon)</li>
+              </ul>
+            </div>
+            <div class="formula-card">
+              <p class="formula-expr">Vrms = Vm / &radic;2</p>
+              <ul class="formula-vars">
+                <li><strong>Vrms</strong> = Tegangan Efektif</li>
+                <li>Nilai yang terbaca pada Voltmeter AC</li>
+              </ul>
+            </div>
+            <div class="formula-card">
+              <p class="formula-expr">f = 1 / T</p>
+              <ul class="formula-vars">
+                <li><strong>f</strong> = Frekuensi (Hz)</li>
+                <li><strong>T</strong> = Periode (sekon)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2 — Multimeter & Faktor Skala -->
+        <div class="tab-panel" id="tab-multimeter" role="tabpanel" aria-labelledby="btn-multimeter">
+          <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.4 Anatomi Multimeter Analog</h3>
+          <div class="multimeter-wrap">
+            <div class="multimeter-diagram">
+              <svg viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram anatomi multimeter analog SANWA">
+                <rect x="20" y="10" width="280" height="380" rx="18" fill="#2c2f3f" stroke="#3d4155" stroke-width="2"/>
+                <text x="160" y="38" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#e2e8f0" letter-spacing="3">SANWA</text>
+                <rect x="35" y="48" width="250" height="115" rx="10" fill="#f5f0e8" stroke="#c8b88a" stroke-width="1.5"/>
+                <path d="M55 150 A105 105 0 0 1 265 150" stroke="#333" stroke-width="1" fill="none"/>
+                <path d="M60 145 A100 100 0 0 1 260 145" stroke="#555" stroke-width="0.5" fill="none" stroke-dasharray="3 4"/>
+                <line x1="160" y1="150" x2="115" y2="80" stroke="#c0392b" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="160" cy="150" r="5" fill="#c0392b"/>
+                <line x1="75" y1="118" x2="69" y2="108" stroke="#333" stroke-width="1"/>
+                <line x1="100" y1="85" x2="96" y2="74" stroke="#333" stroke-width="1"/>
+                <line x1="135" y1="65" x2="132" y2="54" stroke="#333" stroke-width="1"/>
+                <line x1="160" y1="58" x2="160" y2="47" stroke="#333" stroke-width="1"/>
+                <line x1="185" y1="65" x2="188" y2="54" stroke="#333" stroke-width="1"/>
+                <line x1="220" y1="85" x2="224" y2="74" stroke="#333" stroke-width="1"/>
+                <line x1="245" y1="118" x2="251" y2="108" stroke="#333" stroke-width="1"/>
+                <text x="71" y="107" font-size="8" fill="#555" text-anchor="middle">0</text>
+                <text x="97" y="73" font-size="8" fill="#555" text-anchor="middle">5</text>
+                <text x="133" y="52" font-size="8" fill="#555" text-anchor="middle">10</text>
+                <text x="160" y="45" font-size="8" fill="#555" text-anchor="middle">25</text>
+                <text x="188" y="52" font-size="8" fill="#555" text-anchor="middle">50</text>
+                <text x="224" y="73" font-size="8" fill="#555" text-anchor="middle">150</text>
+                <text x="252" y="107" font-size="8" fill="#555" text-anchor="middle">250</text>
+                <text x="160" y="130" font-size="7" fill="#888" text-anchor="middle">AC &mdash; DC &mdash; &Omega;</text>
+                <circle cx="160" cy="265" r="80" fill="#1a1c2b" stroke="#3d4155" stroke-width="2"/>
+                <circle cx="160" cy="265" r="50" fill="#2c2f3f" stroke="#555" stroke-width="1"/>
+                <rect x="153" y="185" width="14" height="30" rx="4" fill="#e2e8f0"/>
+                <text x="160" y="196" font-size="7.5" font-weight="bold" fill="#ff6f00" text-anchor="middle">ACV</text>
+                <text x="88" y="230" font-size="6.5" fill="#ff9d3f" text-anchor="middle">500</text>
+                <text x="84" y="252" font-size="6.5" fill="#ff9d3f" text-anchor="middle">250</text>
+                <text x="87" y="273" font-size="6.5" fill="#ff9d3f" text-anchor="middle">50</text>
+                <text x="95" y="292" font-size="6.5" fill="#ff9d3f" text-anchor="middle">10</text>
+                <text x="232" y="230" font-size="6.5" fill="#4db8ff" text-anchor="middle">500</text>
+                <text x="236" y="252" font-size="6.5" fill="#4db8ff" text-anchor="middle">250</text>
+                <text x="233" y="273" font-size="6.5" fill="#4db8ff" text-anchor="middle">50</text>
+                <text x="225" y="292" font-size="6.5" fill="#4db8ff" text-anchor="middle">10</text>
+                <text x="215" y="308" font-size="6.5" fill="#4db8ff" text-anchor="middle">2.5</text>
+                <text x="160" y="340" font-size="7.5" font-weight="bold" fill="#4db8ff" text-anchor="middle">DCV</text>
+                <text x="112" y="308" font-size="6.5" fill="#10b981" text-anchor="middle">50mA</text>
+                <text x="125" y="325" font-size="6.5" fill="#10b981" text-anchor="middle">5mA</text>
+                <text x="141" y="334" font-size="6.5" fill="#10b981" text-anchor="middle">0.5mA</text>
+                <text x="77" y="213" font-size="7" font-weight="bold" fill="#a78bfa" text-anchor="middle">&Omega;</text>
+                <text x="63" y="228" font-size="6" fill="#a78bfa" text-anchor="middle">&times;1k</text>
+                <text x="57" y="243" font-size="6" fill="#a78bfa" text-anchor="middle">&times;100</text>
+                <text x="57" y="258" font-size="6" fill="#a78bfa" text-anchor="middle">&times;10</text>
+                <text x="59" y="273" font-size="6" fill="#a78bfa" text-anchor="middle">&times;1</text>
+                <text x="160" y="262" font-size="8" font-weight="bold" fill="#e2e8f0" text-anchor="middle">SEL.</text>
+                <text x="160" y="274" font-size="7" fill="#aaa" text-anchor="middle">SWITCH</text>
+                <rect x="110" y="355" width="30" height="28" rx="6" fill="#1a1a1a" stroke="#555" stroke-width="1"/>
+                <circle cx="125" cy="369" r="6" fill="#333" stroke="#222" stroke-width="1"/>
+                <text x="125" y="393" font-size="8" fill="#c9d1d9" text-anchor="middle" font-weight="bold">COM</text>
+                <rect x="148" y="355" width="30" height="28" rx="6" fill="#1a1a1a" stroke="#555" stroke-width="1"/>
+                <circle cx="163" cy="369" r="6" fill="#c0392b" stroke="#922b21" stroke-width="1"/>
+                <text x="163" y="393" font-size="8" fill="#c9d1d9" text-anchor="middle" font-weight="bold">V&middot;&Omega;</text>
+                <rect x="186" y="355" width="30" height="28" rx="6" fill="#1a1a1a" stroke="#555" stroke-width="1"/>
+                <circle cx="201" cy="369" r="6" fill="#c0392b" stroke="#922b21" stroke-width="1"/>
+                <text x="201" y="393" font-size="8" fill="#c9d1d9" text-anchor="middle" font-weight="bold">mA</text>
+                <!-- Sekrup Adj Nol Mekanis -->
+                <circle cx="160" cy="163" r="6" fill="#6b7280" stroke="#4b5563" stroke-width="1.5"/>
+                <line x1="157" y1="160" x2="163" y2="166" stroke="#374151" stroke-width="2" stroke-linecap="round"/>
+                <line x1="163" y1="160" x2="157" y2="166" stroke="#374151" stroke-width="2" stroke-linecap="round"/>
+                <!-- Callout badges -->
+                <circle cx="40" cy="63" r="9" fill="#1a237e" opacity="0.92"/><text x="40" y="67" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">1</text>
+                <circle cx="107" cy="79" r="9" fill="#c0392b" opacity="0.92"/><text x="107" y="83" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">2</text>
+                <circle cx="272" cy="143" r="9" fill="#059669" opacity="0.92"/><text x="272" y="147" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">3</text>
+                <circle cx="148" cy="163" r="9" fill="#d97706" opacity="0.92"/><text x="148" y="167" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">4</text>
+                <circle cx="226" cy="202" r="9" fill="#7c3aed" opacity="0.92"/><text x="226" y="206" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">5</text>
+                <circle cx="125" cy="352" r="9" fill="#4b5563" opacity="0.92"/><text x="125" y="356" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">6</text>
+                <circle cx="163" cy="352" r="9" fill="#b91c1c" opacity="0.92"/><text x="163" y="356" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">7</text>
+                <circle cx="201" cy="352" r="9" fill="#b91c1c" opacity="0.92"/><text x="201" y="356" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">8</text>
+              </svg>
+              <!-- Numbered parts legend -->
+              <div class="multimeter-legend">
+                <div class="legend-row"><span class="legend-num" style="background:#1a237e">1</span><div class="legend-text"><strong>Papan Skala</strong><span>Area pembacaan nilai — memuat busur skala AC, DC, dan &Omega;</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#c0392b">2</span><div class="legend-text"><strong>Jarum Penunjuk</strong><span>Bergerak proporsional terhadap besaran yang diukur</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#059669">3</span><div class="legend-text"><strong>Cermin Anti-Parallax</strong><span>Strip cermin pada skala — baca nilai saat jarum &amp; bayangannya tepat berhimpit</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#d97706">4</span><div class="legend-text"><strong>Sekrup Adj Nol Mekanis</strong><span>Menyetel posisi jarum ke angka nol sebelum pengukuran dimulai</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#7c3aed">5</span><div class="legend-text"><strong>Selektor Range (Rotary Switch)</strong><span>Memilih besaran (ACV / DCV / &Omega; / mA) dan batas ukur yang sesuai</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#4b5563">6</span><div class="legend-text"><strong>Terminal COM (&minus;)</strong><span>Colokkan probe hitam &mdash; referensi / negatif untuk semua pengukuran</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#b91c1c">7</span><div class="legend-text"><strong>Terminal V&middot;&Omega; (+)</strong><span>Colokkan probe merah untuk pengukuran tegangan AC/DC &amp; hambatan</span></div></div>
+                <div class="legend-row"><span class="legend-num" style="background:#b91c1c">8</span><div class="legend-text"><strong>Terminal mA (+)</strong><span>Colokkan probe merah untuk pengukuran arus DC (maks 250 mA)</span></div></div>
+              </div>
+              <!-- Range summary -->
+              <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center">
+                <span style="font-size:0.78rem;padding:0.2rem 0.55rem;border-radius:6px;background:rgba(255,111,0,0.12);color:#c75c00;font-weight:700"><i class="fas fa-bolt"></i> ACV: 10, 50, 250, 500V</span>
+                <span style="font-size:0.78rem;padding:0.2rem 0.55rem;border-radius:6px;background:rgba(77,184,255,0.12);color:#1a6ea8;font-weight:700"><i class="fas fa-plug"></i> DCV: 2.5, 10, 50, 250, 500V</span>
+                <span style="font-size:0.78rem;padding:0.2rem 0.55rem;border-radius:6px;background:rgba(16,185,129,0.12);color:#059669;font-weight:700"><i class="fas fa-tachometer-alt"></i> DCmA: 0.5, 5, 50mA</span>
+                <span style="font-size:0.78rem;padding:0.2rem 0.55rem;border-radius:6px;background:rgba(167,139,250,0.12);color:#7c3aed;font-weight:700"><i class="fas fa-infinity"></i> &Omega;: &times;1, &times;10, &times;100, &times;1k</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.5 Kalkulator Faktor Skala</h3>
+              <div class="calc-card">
+                <div class="calc-form">
+                  <div class="form-group">
+                    <label for="batasUkur">Batas Ukur (Volt)</label>
+                    <select id="batasUkur">
+                      <option value="10">10 V</option>
+                      <option value="50" selected>50 V</option>
+                      <option value="250">250 V</option>
+                      <option value="500">500 V</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="skalapenuh">Skala Penuh</label>
+                    <select id="skalapenuh">
+                      <option value="10">10</option>
+                      <option value="50" selected>50</option>
+                      <option value="250">250</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="grid-column:1/-1">
+                    <label for="penunjukan">Penunjukan Jarum: <span class="slider-val" id="sliderDisplay">35</span></label>
+                    <input type="range" id="penunjukan" min="0" max="50" value="35" step="0.5" />
+                  </div>
+                </div>
+                <div class="calc-result" id="calcResult">
+                  <p class="result-formula" id="resultFormula">Hasil = (50 &divide; 50) &times; 35 = ...</p>
+                  <p class="result-main" id="resultMain">35.00 Volt</p>
+                </div>
+              </div>
+
+              <h3 class="section-title" style="font-size:1.1rem;margin-top:1.5rem;margin-bottom:1rem">2.6 Prosedur Setting Multimeter</h3>
+              <div class="proc-columns">
+                <div class="proc-block">
+                  <div class="proc-block-header ac"><i class="fas fa-bolt"></i> Pengukuran ACV</div>
+                  <ol class="proc-steps">
+                    <li><span class="step-num">1</span>Putar selektor ke posisi ACV</li>
+                    <li><span class="step-num">2</span>Pilih batas ukur lebih besar dari tegangan sumber</li>
+                    <li><span class="step-num">3</span>Hubungkan probe ke terminal yang sesuai</li>
+                    <li><span class="step-num">4</span>Baca penunjukan jarum pada skala ACV</li>
+                    <li><span class="step-num">5</span>Hitung hasil: Faktor Skala &times; Penunjukan</li>
+                    <li><span class="step-num">6</span>Catat hasil pada tabel pengamatan</li>
+                  </ol>
+                </div>
+                <div class="proc-block">
+                  <div class="proc-block-header ac"><i class="fas fa-plug"></i> Pengukuran DCV</div>
+                  <ol class="proc-steps">
+                    <li><span class="step-num">1</span>Putar selektor ke posisi DCV</li>
+                    <li><span class="step-num">2</span>Pilih batas ukur lebih besar dari tegangan sumber</li>
+                    <li><span class="step-num">3</span>Hubungkan probe memerhatikan polaritas (+/&minus;)</li>
+                    <li><span class="step-num">4</span>Baca penunjukan jarum pada skala DCV</li>
+                    <li><span class="step-num">5</span>Hitung hasil: Faktor Skala &times; Penunjukan</li>
+                    <li><span class="step-num">6</span>Catat hasil pada tabel pengamatan</li>
+                  </ol>
+                </div>
+              </div>
+              <div class="warning-card">
+                <span style="font-size:1.2rem"><i class="fas fa-exclamation-triangle"></i></span>
+                <span>Perhatikan polaritas probe pada pengukuran DCV! Terbalik polaritas dapat merusak jarum multimeter.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3 — K3 -->
+        <div class="tab-panel" id="tab-k3" role="tabpanel" aria-labelledby="btn-k3">
+          <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.7 Keselamatan &amp; Kesehatan Kerja (K3)</h3>
+          <div class="safety-columns">
+            <div class="safety-block">
+              <div class="safety-header wajib"><i class="fas fa-check-circle"></i> Wajib Dilakukan</div>
+              <ul class="safety-list">
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Gunakan APD: jas lab, sarung tangan, kacamata</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Periksa kondisi alat sebelum digunakan</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Pastikan sumber tegangan dalam keadaan OFF sebelum merangkai</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Atur batas ukur lebih tinggi dari tegangan yang diukur</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Konsultasikan rangkaian ke dosen/teknisi sebelum ON</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Perhatikan polaritas alat ukur</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Kembalikan peralatan ke tempatnya setelah selesai</li>
+                <li><span class="safety-icon"><i class="fas fa-check-circle"></i></span>Laporkan kerusakan alat segera</li>
+              </ul>
+            </div>
+            <div class="safety-block">
+              <div class="safety-header dilarang"><i class="fas fa-ban"></i> Dilarang</div>
+              <ul class="safety-list">
+                <li><span class="safety-icon"><i class="fas fa-ban"></i></span>Jangan menyalakan peralatan tanpa izin</li>
+                <li><span class="safety-icon"><i class="fas fa-ban"></i></span>Jangan membalik polaritas secara paksa</li>
+                <li><span class="safety-icon"><i class="fas fa-ban"></i></span>Jangan menggunakan alat yang rusak</li>
+                <li><span class="safety-icon"><i class="fas fa-ban"></i></span>Jangan meninggalkan rangkaian bertegangan tanpa pengawasan</li>
+                <li><span class="safety-icon"><i class="fas fa-ban"></i></span>Jangan menghalangi jalur evakuasi</li>
+              </ul>
+            </div>
+          </div>
+          <h3 class="section-title" style="font-size:1.05rem;margin-bottom:1rem">Alat Pelindung Diri (APD)</h3>
+          <div class="apd-grid">
+            <div class="apd-card"><div class="apd-emoji"><i class="fas fa-user-shield"></i></div><p class="apd-name">Jas Laboratorium</p></div>
+            <div class="apd-card"><div class="apd-emoji"><i class="fas fa-hand-paper"></i></div><p class="apd-name">Sarung Tangan Isolasi</p></div>
+            <div class="apd-card"><div class="apd-emoji"><i class="fas fa-glasses"></i></div><p class="apd-name">Kacamata Pelindung</p></div>
+            <div class="apd-card"><div class="apd-emoji"><i class="fas fa-shoe-prints"></i></div><p class="apd-name">Sepatu Safety</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    &#8679;
+  </button>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <!-- Left column -->
+        <div>
+          <div class="footer-brand">
+            <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="footer-logo">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
+            </svg>
+            Media Pembelajaran Interaktif
+          </div>
+          <p class="footer-desc">
+            <span class="footer-row">
+              <i class="fas fa-book"></i>
+              <span class="footer-key">Mata Kuliah</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Praktek Pengukuran Listrik</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-university"></i>
+              <span class="footer-key">Institusi</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Universitas Negeri Padang</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-flask"></i>
+              <span class="footer-key">Laboratorium</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Instrumentasi dan Pengukuran FT-UNP</span>
+            </span>
+          </p>
+        </div>
+        <!-- Right column -->
+        <div>
+          <p class="footer-col-title">Tim Pengembang</p>
+          <ul class="footer-team-list">
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Afri Ansyah</span>
+              <span class="footer-nim">25063002</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</span>
+              <span class="footer-nim">25063227</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Suci Wulandari</span>
+              <span class="footer-nim">25063029</span>
+            </li>
+          </ul>
+          <p style="margin:0.75rem 0 0;font-size:0.82rem;color:#6e7681">
+            S1 Pendidikan Teknik Elektro &mdash; UNP 2026
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        &copy; 2026 &mdash; Dikembangkan sebagai Media Pembelajaran Interaktif Mata Kuliah Praktek Pengukuran Listrik
+        | Departemen Teknik Elektro FT-UNP
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

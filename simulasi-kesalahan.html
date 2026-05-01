@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulasi Kesalahan Umum — Media Pembelajaran Praktek Pengukuran Listrik</title>
+  <meta name="description" content="Pelajari kesalahan umum dalam praktikum pengukuran listrik dan cara menghindarinya.">
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="logoftunp.png" />
+  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loader-screen" id="loaderScreen" role="status" aria-live="polite" aria-label="Memuat media pembelajaran">
+    <div class="loader-content">
+      <h1 class="loader-brand">PengukuranListrik</h1>
+      <svg class="loader-wave" viewBox="0 0 320 80" aria-hidden="true" focusable="false">
+        <path d="M0,40 C20,10 40,10 60,40 S100,70 120,40 S160,10 180,40 S220,70 240,40 S280,10 300,40 S320,70 340,40"></path>
+      </svg>
+      <p class="loader-text">Memuat Media Pembelajaran...</p>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
+        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
+        </svg>
+      </a>
+
+      <input type="checkbox" class="menu-toggle" id="menuToggle" aria-label="Buka menu navigasi" />
+      <label for="menuToggle" class="menu-button" aria-hidden="true"><span></span></label>
+
+      <nav class="nav-wrap" aria-label="Navigasi Utama">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="materi.html">Materi</a></li>
+          <li><a href="prosedur.html">Prosedur</a></li>
+          <li><a href="simulasi.html">Simulasi</a></li>
+          <li><a href="simulasi-kesalahan.html" class="is-active">Kesalahan</a></li>
+          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="tentang.html">Tentang</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="kesalahan" class="section" data-section>
+      <div class="container">
+        <div style="margin-bottom:2rem">
+          <span class="badge">Pembelajaran Interaktif</span>
+          <h2 class="section-title" style="margin-top:0.5rem">Simulasi Kesalahan Umum</h2>
+          <p class="section-subtitle">Pelajari kesalahan yang sering terjadi saat praktikum pengukuran tegangan dan cara menghindarinya</p>
+        </div>
+
+        <!-- Scenario Selector -->
+        <div class="scenario-tabs" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:2rem">
+          <button class="scenario-btn is-active" onclick="selectScenario(0)">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Batas Ukur Salah</span>
+          </button>
+          <button class="scenario-btn" onclick="selectScenario(1)">
+            <i class="fas fa-right-left"></i>
+            <span>Mode Pengukuran Salah</span>
+          </button>
+          <button class="scenario-btn" onclick="selectScenario(2)">
+            <i class="fas fa-plug"></i>
+            <span>Probe Terbalik</span>
+          </button>
+          <button class="scenario-btn" onclick="selectScenario(3)">
+            <i class="fas fa-sitemap"></i>
+            <span>Terminal CT Salah</span>
+          </button>
+        </div>
+
+        <!-- Scenario Content -->
+        <div id="scenarioContent" style="background:#f9f9f9; border-radius:8px; padding:2rem; border:1px solid rgba(17,17,17,0.12)">
+          <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Navigation -->
+        <div style="display:flex; gap:1rem; margin-top:2rem; flex-wrap:wrap">
+          <button class="btn-secondary" id="btnPrev" onclick="previousScenario()" disabled>
+            <i class="fas fa-chevron-left"></i> Sebelumnya
+          </button>
+          <button class="btn-primary" id="btnNext" onclick="nextScenario()">
+            Selanjutnya <i class="fas fa-chevron-right"></i>
+          </button>
+          <button class="btn-secondary" onclick="resetScenario()" style="margin-left:auto">
+            <i class="fas fa-redo"></i> Reset
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    &#8679;
+  </button>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <!-- Left column -->
+        <div>
+          <div class="footer-brand">
+            <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="footer-logo">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
+            </svg>
+            Media Pembelajaran Interaktif
+          </div>
+          <p class="footer-desc">
+            <span class="footer-row">
+              <i class="fas fa-book"></i>
+              <span class="footer-key">Mata Kuliah</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Praktek Pengukuran Listrik</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-university"></i>
+              <span class="footer-key">Program Studi</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Teknik Elektro</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-location-dot"></i>
+              <span class="footer-key">Institusi</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Universitas Negeri Padang</span>
+            </span>
+          </p>
+        </div>
+        <!-- Right column -->
+        <div>
+          <div class="footer-links">
+            <strong>Navigasi</strong>
+            <ul>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="materi.html">Materi</a></li>
+              <li><a href="prosedur.html">Prosedur</a></li>
+              <li><a href="simulasi.html">Simulasi</a></li>
+              <li><a href="kuis.html">Kuis</a></li>
+              <li><a href="tentang.html">Tentang</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Media Pembelajaran Interaktif. Didesain khusus untuk Praktek Pengukuran Listrik. Untuk pendidikan yang lebih baik.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

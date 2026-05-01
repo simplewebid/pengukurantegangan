@@ -1,0 +1,17 @@
+{
+  "name": "PengukuranListrik — Media Pembelajaran",
+  "short_name": "PengukuranListrik",
+  "description": "Media pembelajaran interaktif praktek pengukuran listrik (AC & DC).",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "./logoftunp.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

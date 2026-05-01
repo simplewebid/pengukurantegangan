@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tentang Media Pembelajaran Interaktif Praktek Pengukuran Listrik Job 3 — Info tim pengembang, mata kuliah, dan capaian pembelajaran FT-UNP." />
+  <meta name="keywords" content="Pengukuran Listrik, Tegangan AC, Tegangan DC, Laboratorium, Teknik Elektro, UNP" />
+  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari — S1 Pendidikan Teknik Elektro UNP" />
+  <meta name="robots" content="index, follow" />
+  <title>Tentang &mdash; PengukuranListrik</title>
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="logoftunp.png" />
+  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+  </div>
+  <!-- Loading Screen -->
+  <div class="loader-screen" id="loaderScreen" role="status" aria-live="polite" aria-label="Memuat media pembelajaran">
+    <div class="loader-content">
+      <h1 class="loader-brand">PengukuranListrik</h1>
+      <svg class="loader-wave" viewBox="0 0 320 80" aria-hidden="true" focusable="false">
+        <path d="M0,40 C20,10 40,10 60,40 S100,70 120,40 S160,10 180,40 S220,70 240,40 S280,10 300,40 S320,70 340,40"></path>
+      </svg>
+      <p class="loader-text">Memuat Media Pembelajaran...</p>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
+        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
+        </svg>
+      </a>
+
+      <input type="checkbox" class="menu-toggle" id="menuToggle" aria-label="Buka menu navigasi" />
+      <label for="menuToggle" class="menu-button" aria-hidden="true"><span></span></label>
+
+      <nav class="nav-wrap" aria-label="Navigasi Utama">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="materi.html">Materi</a></li>
+          <li><a href="prosedur.html">Prosedur</a></li>
+          <li><a href="simulasi.html">Simulasi</a></li>
+          <li><a href="simulasi-kesalahan.html">Kesalahan</a></li>
+          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="tentang.html" class="is-active">Tentang</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="tentang" class="section" data-section>
+      <div class="container">
+
+        <!-- Header -->
+        <div style="margin-bottom:2rem;text-align:center">
+          <span class="badge">Info &amp; Tim</span>
+          <h2 class="section-title" style="margin-top:0.5rem">Tentang Media Pembelajaran</h2>
+          <p class="section-subtitle">Informasi lengkap tentang media, mata kuliah, dan tim pengembang</p>
+        </div>
+
+        <!-- Deskripsi Media -->
+        <div class="card" style="margin-bottom:2rem;padding:2rem">
+          <h3 class="section-title" style="font-size:1.15rem;margin-bottom:1rem"><i class="fas fa-laptop"></i> Tentang Media Ini</h3>
+          <p style="margin:0 0 0.75rem;line-height:1.8">
+            <strong>Media Pembelajaran Interaktif Praktek Pengukuran Listrik Job 3</strong> adalah aplikasi web edukatif
+            yang dirancang untuk mendukung kegiatan praktikum di Laboratorium Instrumentasi dan Pengukuran,
+            Departemen Teknik Elektro, Fakultas Teknik Universitas Negeri Padang (FT-UNP).
+          </p>
+          <p style="margin:0 0 0.75rem;line-height:1.8">
+            Media ini dikembangkan menggunakan teknologi web modern (HTML5, CSS3, JavaScript ES6+) tanpa
+            dependensi eksternal. Seluruh fitur berjalan langsung di browser, mencakup visualisasi animasi
+            gelombang, simulator alat ukur interaktif, tabel pengamatan otomatis, dan sistem kuis dengan
+            evaluasi instan.
+          </p>
+          <div class="formula-grid" style="margin-top:1.25rem">
+            <div class="formula-card" style="padding:1rem">
+              <p class="formula-expr" style="font-size:1rem"><i class="fas fa-book"></i> 5 Modul</p>
+              <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">Beranda, Materi, Prosedur, Simulasi, Kuis</p>
+            </div>
+            <div class="formula-card" style="padding:1rem">
+              <p class="formula-expr" style="font-size:1rem"><i class="fas fa-wrench"></i> Teknologi</p>
+              <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">Vanilla HTML5 + CSS3 + JS ES6+, Canvas API</p>
+            </div>
+            <div class="formula-card" style="padding:1rem">
+              <p class="formula-expr" style="font-size:1rem"><i class="fas fa-check-circle"></i> Aksesibel</p>
+              <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">ARIA, Keyboard navigasi, Responsive design</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Mata Kuliah -->
+        <div class="card" style="margin-bottom:2rem;padding:2rem">
+          <h3 class="section-title" style="font-size:1.15rem;margin-bottom:1.25rem"><i class="fas fa-university"></i> Informasi Mata Kuliah</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem">
+            <div style="background:var(--surface);border-radius:var(--radius);padding:1rem;border:1px solid rgba(26,35,126,0.12);box-shadow:var(--shadow)">
+              <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Mata Kuliah</p>
+              <p style="margin:0;font-weight:700;color:var(--text)">Praktek Pengukuran Listrik</p>
+            </div>
+            <div style="background:var(--surface);border-radius:var(--radius);padding:1rem;border:1px solid rgba(26,35,126,0.12);box-shadow:var(--shadow)">
+              <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Nomor Job</p>
+              <p style="margin:0;font-weight:700;color:var(--text)">Job 3 &mdash; Pengukuran Tegangan AC &amp; DC</p>
+            </div>
+            <div style="background:var(--surface);border-radius:var(--radius);padding:1rem;border:1px solid rgba(26,35,126,0.12);box-shadow:var(--shadow)">
+              <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Institusi</p>
+              <p style="margin:0;font-weight:700;color:var(--text)">Universitas Negeri Padang (UNP)</p>
+            </div>
+            <div style="background:var(--surface);border-radius:var(--radius);padding:1rem;border:1px solid rgba(26,35,126,0.12);box-shadow:var(--shadow)">
+              <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Laboratorium</p>
+              <p style="margin:0;font-weight:700;color:var(--text)">Instrumentasi dan Pengukuran FT-UNP</p>
+            </div>
+            <div style="background:var(--surface);border-radius:var(--radius);padding:1rem;border:1px solid rgba(26,35,126,0.12);box-shadow:var(--shadow)">
+              <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Departemen</p>
+              <p style="margin:0;font-weight:700;color:var(--text)">Teknik Elektro &mdash; Fakultas Teknik</p>
+            </div>
+            <div style="background:var(--surface);border-radius:var(--radius);padding:1rem;border:1px solid rgba(26,35,126,0.12);box-shadow:var(--shadow)">
+              <p style="margin:0 0 0.25rem;font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Durasi Praktikum</p>
+              <p style="margin:0;font-weight:700;color:var(--text)">3 &times; 70 Menit</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capaian Pembelajaran -->
+        <div class="card" style="margin-bottom:2rem;padding:2rem">
+          <h3 class="section-title" style="font-size:1.15rem;margin-bottom:1.25rem"><i class="fas fa-bullseye"></i> Capaian Pembelajaran</h3>
+          <div style="display:flex;flex-direction:column;gap:0.85rem">
+            <div style="display:flex;gap:1rem;align-items:flex-start;background:var(--surface);border-radius:var(--radius);padding:1rem">
+              <div style="min-width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem">1</div>
+              <div>
+                <p style="margin:0 0 0.25rem;font-weight:700">Mampu Mengukur Tegangan AC</p>
+                <p style="margin:0;font-size:0.9rem;color:var(--text-muted)">Menggunakan multimeter analog pada berbagai terminal transformator dan menghitung hasil ukur dengan rumus faktor skala.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start;background:var(--surface);border-radius:var(--radius);padding:1rem">
+              <div style="min-width:36px;height:36px;border-radius:50%;background:var(--secondary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem">2</div>
+              <div>
+                <p style="margin:0 0 0.25rem;font-weight:700">Mampu Mengukur Tegangan DC</p>
+                <p style="margin:0;font-size:0.9rem;color:var(--text-muted)">Menggunakan multimeter analog pada power supply DC dengan memperhatikan polaritas probe dan batas ukur yang tepat.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:1rem;align-items:flex-start;background:var(--surface);border-radius:var(--radius);padding:1rem">
+              <div style="min-width:36px;height:36px;border-radius:50%;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem">3</div>
+              <div>
+                <p style="margin:0 0 0.25rem;font-weight:700">Menerapkan K3 Laboratorium</p>
+                <p style="margin:0;font-size:0.9rem;color:var(--text-muted)">Menerapkan prosedur keselamatan dan kesehatan kerja (K3) selama kegiatan praktikum di laboratorium listrik.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:2rem;padding:2rem">
+          <h3 class="section-title" style="font-size:1.15rem;margin-bottom:1.5rem;text-align:center">
+            <i class="fas fa-chalkboard-teacher"></i> Dosen Pengampu
+          </h3>
+          <div style="display:flex;justify-content:center">
+            <article class="member-card" style="max-width:280px;width:100%;text-align:center">
+              <h3 class="member-name" style="text-align:center">Puji Nurrahmawati, S.Si., M.T</h3>
+              <p class="member-nim" style="text-align:center">NIP 199301292023212026</p>
+              <p class="member-subtitle" style="text-align:center;margin-bottom:1rem">Dosen Fakultas Teknik</p>
+              <div style="display:flex;flex-direction:column;gap:0.4rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Fakultas</span>
+                  <span style="font-weight:600">Teknik</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Universitas</span>
+                  <span style="font-weight:600">UNP</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Mata Kuliah</span>
+                  <span style="font-weight:600">Praktek Pengukuran Listrik</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Tim Pengembang -->
+        <div class="card" style="padding:2rem">
+          <h3 class="section-title" style="font-size:1.15rem;margin-bottom:1.5rem;text-align:center"><i class="fas fa-users"></i> Tim Pengembang</h3>
+          <div class="grid-3">
+
+            <!-- Anggota 1 -->
+            <article class="member-card">
+              <div class="member-avatar-wrap">
+                <img src="afri.png" alt="Afri Ansyah" class="member-avatar">
+              </div>
+              <h3 class="member-name" style="text-align:center">Afri Ansyah</h3>
+              <p class="member-nim" style="text-align:center">NIM 25063002</p>
+              <p class="member-subtitle" style="text-align:center;margin-bottom:1rem">S1 Pendidikan Teknik Elektro</p>
+              <div style="display:flex;flex-direction:column;gap:0.4rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Program Studi</span>
+                  <span style="font-weight:600">Pend. Teknik Elektro</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Universitas</span>
+                  <span style="font-weight:600">UNP</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Angkatan</span>
+                  <span style="font-weight:600">2025</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Anggota 2 -->
+            <article class="member-card">
+              <div class="member-avatar-wrap">
+                <img src="selsa.png" alt="Selsa Mar Olivia" class="member-avatar member-avatar--up">
+              </div>
+              <h3 class="member-name" style="text-align:center">Selsa Mar Olivia</h3>
+              <p class="member-nim" style="text-align:center">NIM 25063227</p>
+              <p class="member-subtitle" style="text-align:center;margin-bottom:1rem">S1 Pendidikan Teknik Elektro</p>
+              <div style="display:flex;flex-direction:column;gap:0.4rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Program Studi</span>
+                  <span style="font-weight:600">Pend. Teknik Elektro</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Universitas</span>
+                  <span style="font-weight:600">UNP</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Angkatan</span>
+                  <span style="font-weight:600">2025</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Anggota 3 -->
+            <article class="member-card">
+              <div class="member-avatar-wrap">
+                <img src="suci.png" alt="Suci Wulandari" class="member-avatar member-avatar--up">
+              </div>
+              <h3 class="member-name" style="text-align:center">Suci Wulandari</h3>
+              <p class="member-nim" style="text-align:center">NIM 25063029</p>
+              <p class="member-subtitle" style="text-align:center;margin-bottom:1rem">S1 Pendidikan Teknik Elektro</p>
+              <div style="display:flex;flex-direction:column;gap:0.4rem">
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Program Studi</span>
+                  <span style="font-weight:600">Pend. Teknik Elektro</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Universitas</span>
+                  <span style="font-weight:600">UNP</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:0.83rem">
+                  <span style="color:var(--text-muted)">Angkatan</span>
+                  <span style="font-weight:600">2025</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Bimbingan -->
+          <div class="warning-card" style="margin-top:1.5rem;background:rgba(17,17,17,0.06);border:1.5px solid rgba(17,17,17,0.18);border-left:4px solid #111111;color:#111111">
+            <span style="font-size:1.2rem"><i class="fas fa-graduation-cap"></i></span>
+            <span>Media ini dikembangkan sebagai tugas Mata Kuliah Praktek Pengukuran Listrik, Departemen Teknik Elektro FT-UNP, Tahun Akademik 2025/2026.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    &#8679;
+  </button>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <!-- Left column -->
+        <div>
+          <div class="footer-brand">
+            <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="footer-logo">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
+            </svg>
+            Media Pembelajaran Interaktif
+          </div>
+          <p class="footer-desc">
+            <span class="footer-row">
+              <i class="fas fa-book"></i>
+              <span class="footer-key">Mata Kuliah</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Praktek Pengukuran Listrik</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-university"></i>
+              <span class="footer-key">Institusi</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Universitas Negeri Padang</span>
+            </span>
+            <span class="footer-row">
+              <i class="fas fa-flask"></i>
+              <span class="footer-key">Laboratorium</span>
+              <span class="footer-sep">:</span>
+              <span class="footer-val">Instrumentasi dan Pengukuran FT-UNP</span>
+            </span>
+          </p>
+        </div>
+        <!-- Right column -->
+        <div>
+          <p class="footer-col-title">Tim Pengembang</p>
+          <ul class="footer-team-list">
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Afri Ansyah</span>
+              <span class="footer-nim">25063002</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</span>
+              <span class="footer-nim">25063227</span>
+            </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> Suci Wulandari</span>
+              <span class="footer-nim">25063029</span>
+            </li>
+          </ul>
+          <p style="margin:0.75rem 0 0;font-size:0.82rem;color:#6e7681">
+            S1 Pendidikan Teknik Elektro &mdash; UNP 2026
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        &copy; 2026 &mdash; Dikembangkan sebagai Media Pembelajaran Interaktif Mata Kuliah Praktek Pengukuran Listrik
+        | Departemen Teknik Elektro FT-UNP
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

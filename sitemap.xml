@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Ganti DOMAIN-ANDA.ME dengan domain kamu setelah deploy ke Vercel -->
+  <url><loc>https://DOMAIN-ANDA.ME/</loc></url>
+  <url><loc>https://DOMAIN-ANDA.ME/materi.html</loc></url>
+  <url><loc>https://DOMAIN-ANDA.ME/prosedur.html</loc></url>
+  <url><loc>https://DOMAIN-ANDA.ME/simulasi.html</loc></url>
+  <url><loc>https://DOMAIN-ANDA.ME/simulasi-kesalahan.html</loc></url>
+  <url><loc>https://DOMAIN-ANDA.ME/kuis.html</loc></url>
+  <url><loc>https://DOMAIN-ANDA.ME/tentang.html</loc></url>
+</urlset>

@@ -622,8 +622,6 @@
       from { opacity: 0; transform: translateY(24px) scale(0.98); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .reveal { opacity: 0; transform: translateY(24px) scale(0.98); }
-    .reveal.is-visible { animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
     .back-to-top { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 990; width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; border: none; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 16px rgba(17,17,17,0.3); transition: var(--transition); opacity: 0; visibility: hidden; display: grid; place-items: center; }
     .back-to-top.is-visible { opacity: 1; visibility: visible; }
     .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(17,17,17,0.4); }

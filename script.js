@@ -149,6 +149,31 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('./service-worker.js')
+          .then((registration) => {
+            // Proactively check for updates on each page load.
+            registration.update().catch(() => {});
+
+            // If there's already a waiting worker, activate it.
+            if (registration.waiting) {
+              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+
+            // When a new SW is found, activate it as soon as it's installed.
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (!newWorker) return;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
+            });
+
+            // Reload once the new SW takes control so fresh CSS/JS apply.
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              window.location.reload();
+            });
+          })
           .catch(() => {
             // Silent fail: PWA is optional.
           });

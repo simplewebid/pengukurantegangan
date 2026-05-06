@@ -1,7 +1,7 @@
 /* Simple offline-first service worker (public site, no login). */
 
 // Bump this when you deploy changes, so clients refresh cached assets.
-const CACHE_NAME = "pengukuranlistrik-v2";
+const CACHE_NAME = "pengukuranlistrik-v3";
 
 const PRECACHE_URLS = [
   "./",
@@ -28,6 +28,12 @@ self.addEventListener("install", (event) => {
   );
 });
 
+self.addEventListener("message", (event) => {
+  if (event?.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -48,8 +54,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
           return response;
         })
         .catch(async () => {
@@ -83,7 +91,7 @@ self.addEventListener("fetch", (event) => {
       }
 
       const network = await fetchPromise;
-      return network || cached;
+      return network || cached || Response.error();
     })()
   );
 });

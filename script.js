@@ -1757,7 +1757,7 @@
       const when = new Date().toLocaleString('id-ID');
       const who = userName ? `Nama: ${userName}\n` : '';
       return (
-        `Hasil Kuis Job 3 Pengukuran Tegangan AC & DC\n` +
+        `Hasil Kuis Pengukuran Tegangan AC & DC\n` +
         `${who}` +
         `Skor: ${score}/100 (Grade ${grade})\n` +
         `Benar: ${correct}/${total} — Akurasi: ${accuracy}%\n` +
@@ -2355,7 +2355,7 @@
           <div class="report-modal">
             <div style="text-align:center; margin-bottom:2rem; border-bottom:2px solid #ff6f00; padding-bottom:1rem">
               <h2 style="margin:0; font-size:24px; color:#111">LAPORAN PRAKTIKUM</h2>
-              <p style="margin:0.5rem 0 0 0; color:#666; font-size:14px">Praktek Pengukuran Listrik — Job 3: Pengukuran Tegangan AC & DC</p>
+              <p style="margin:0.5rem 0 0 0; color:#666; font-size:14px">Praktek Pengukuran Listrik — Pengukuran Tegangan AC & DC</p>
             </div>
 
             <div style="margin-bottom:2rem; display:grid; grid-template-columns:1fr 1fr; gap:2rem; font-size:14px">
@@ -2451,7 +2451,7 @@
           <body>
             <div class="header">
               <h2>LAPORAN PRAKTIKUM</h2>
-              <p>Praktek Pengukuran Listrik — Job 3: Pengukuran Tegangan AC & DC</p>
+              <p>Praktek Pengukuran Listrik — Pengukuran Tegangan AC & DC</p>
             </div>
             <div class="info-grid">
               <div>

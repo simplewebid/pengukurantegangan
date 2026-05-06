@@ -1,6 +1,7 @@
 /* Simple offline-first service worker (public site, no login). */
 
-const CACHE_NAME = "pengukuranlistrik-v1";
+// Bump this when you deploy changes, so clients refresh cached assets.
+const CACHE_NAME = "pengukuranlistrik-v2";
 
 const PRECACHE_URLS = [
   "./",
@@ -59,15 +60,30 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Static assets: cache-first
+  // Static assets: stale-while-revalidate
+  // Return cache immediately (fast), but update in background (fresh).
   event.respondWith(
-    caches.match(request).then((cached) =>
-      cached ||
-      fetch(request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-        return response;
-      })
-    )
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const cached = await cache.match(request);
+
+      const fetchPromise = fetch(request)
+        .then((response) => {
+          if (response && response.ok) {
+            cache.put(request, response.clone());
+          }
+          return response;
+        })
+        .catch(() => null);
+
+      if (cached) {
+        // Update cache in background
+        fetchPromise;
+        return cached;
+      }
+
+      const network = await fetchPromise;
+      return network || cached;
+    })()
   );
 });

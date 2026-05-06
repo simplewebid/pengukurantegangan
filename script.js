@@ -2102,27 +2102,54 @@
 
     // ── Scroll reveal (IntersectionObserver) ────────────────────
     (() => {
-      // Add .reveal to card-like elements in sections
+      // Add .reveal to key UI blocks across pages (cards, headings, toolbars, etc)
       const targets = document.querySelectorAll(
-        '.card, .stat-card, .member-card, .formula-card, .apd-card, ' +
-        '.stepper-block, .obs-table-wrap, .sim-block, .pre-quiz-card'
+        [
+          '.badge',
+          '.section-title',
+          '.section-subtitle',
+          '.card',
+          '.stat-card',
+          '.member-card',
+          '.formula-card',
+          '.apd-card',
+          '.tab-nav',
+          '.stepper-block',
+          '.obs-table-wrap',
+          '.sim-block',
+          '.pre-quiz-card',
+          '.quiz-top-bar',
+          '.q-card',
+          '.review-accordion',
+          '.warning-card'
+        ].join(',')
       );
 
       targets.forEach((el, i) => {
+        if (el.classList.contains('reveal')) return;
         el.classList.add('reveal');
-        el.style.animationDelay = `${(i % 6) * 0.07}s`;
+
+        // Stagger within a short cycle to avoid long delays.
+        const delayMs = (i % 10) * 70;
+        el.style.setProperty('--reveal-delay', `${delayMs}ms`);
       });
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.08,
+          rootMargin: '0px 0px -10% 0px'
+        }
+      );
 
-      targets.forEach(el => observer.observe(el));
+      targets.forEach((el) => observer.observe(el));
     })();
 
     // ── Back to Top ─────────────────────────────────────────────

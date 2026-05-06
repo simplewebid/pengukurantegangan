@@ -2152,6 +2152,51 @@
       targets.forEach((el) => observer.observe(el));
     })();
 
+    // ── Premium card tilt (desktop only) ───────────────────────
+    (() => {
+      const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!canHover || reduceMotion) return;
+
+      const tiltTargets = document.querySelectorAll('.card');
+      if (tiltTargets.length === 0) return;
+
+      tiltTargets.forEach((el) => {
+        let rafId = 0;
+
+        const setTilt = (clientX, clientY) => {
+          const rect = el.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+
+          const dx = (clientX - cx) / (rect.width / 2);
+          const dy = (clientY - cy) / (rect.height / 2);
+
+          const clamp = (v) => Math.max(-1, Math.min(1, v));
+          const nx = clamp(dx);
+          const ny = clamp(dy);
+
+          const max = 4; // degrees (keep subtle)
+          const tiltY = nx * max;
+          const tiltX = ny * -max;
+
+          el.style.setProperty('--card-tilt-x', `${tiltX.toFixed(2)}deg`);
+          el.style.setProperty('--card-tilt-y', `${tiltY.toFixed(2)}deg`);
+        };
+
+        el.addEventListener('mousemove', (e) => {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => setTilt(e.clientX, e.clientY));
+        });
+
+        el.addEventListener('mouseleave', () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          el.style.setProperty('--card-tilt-x', '0deg');
+          el.style.setProperty('--card-tilt-y', '0deg');
+        });
+      });
+    })();
+
     // ── Back to Top ─────────────────────────────────────────────
     (() => {
       const btn = document.getElementById('backToTop');

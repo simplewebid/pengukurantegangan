@@ -2118,6 +2118,11 @@
       // Add .reveal to key UI blocks across pages (cards, headings, toolbars, etc)
       const targets = document.querySelectorAll(
         [
+          '.hero-title',
+          '.hero-subtitle',
+          '.hero-note',
+          '.hero-actions',
+          '.stats-grid',
           '.badge',
           '.section-title',
           '.section-subtitle',
@@ -2151,7 +2156,9 @@
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
+              // Ensure the initial hidden state is painted before revealing,
+              // especially for elements already in the viewport on load.
+              requestAnimationFrame(() => entry.target.classList.add('is-visible'));
               observer.unobserve(entry.target);
             }
           });

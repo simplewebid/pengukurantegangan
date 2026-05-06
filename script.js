@@ -12,15 +12,28 @@
 
     // Scroll depth progress bar
     const progressBar = document.getElementById("scrollProgressBar");
-    const updateProgressBar = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
-    };
-    window.addEventListener("scroll", updateProgressBar, { passive: true });
-    window.addEventListener("resize", updateProgressBar);
-    updateProgressBar();
+    (() => {
+      if (!progressBar) return;
+      let rafId = 0;
+
+      const computeProgress = () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+        const clamped = Math.min(1, Math.max(0, progress));
+        progressBar.style.transform = `scaleX(${clamped.toFixed(4)})`;
+        rafId = 0;
+      };
+
+      const schedule = () => {
+        if (rafId) return;
+        rafId = requestAnimationFrame(computeProgress);
+      };
+
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      schedule();
+    })();
 
     // Hero animated sine-wave background (Canvas API)
     (() => {
@@ -2338,8 +2351,8 @@
 
       // Create modal/overlay for report preview
       const reportContent = `
-        <div id="reportModal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:10000; padding:20px">
-          <div style="background:white; border-radius:8px; padding:40px; max-height:90vh; overflow-y:auto; max-width:900px; width:100%; box-shadow:0 10px 40px rgba(0,0,0,0.2)">
+        <div id="reportModal" class="report-modal-overlay" role="dialog" aria-modal="true" aria-label="Preview laporan praktikum">
+          <div class="report-modal">
             <div style="text-align:center; margin-bottom:2rem; border-bottom:2px solid #ff6f00; padding-bottom:1rem">
               <h2 style="margin:0; font-size:24px; color:#111">LAPORAN PRAKTIKUM</h2>
               <p style="margin:0.5rem 0 0 0; color:#666; font-size:14px">Praktek Pengukuran Listrik — Job 3: Pengukuran Tegangan AC & DC</p>
@@ -2367,14 +2380,14 @@
               <p style="margin-top:0.5rem">Tanggal Cetak: ${new Date().toLocaleString('id-ID')}</p>
             </div>
 
-            <div style="display:flex; gap:1rem; margin-top:2rem; justify-content:center">
-              <button onclick="printReport()" style="padding:10px 20px; background:#ff6f00; color:white; border:none; border-radius:4px; cursor:pointer; font-size:14px">
+            <div class="report-modal-actions">
+              <button class="btn-primary" onclick="printReport()">
                 <i class="fas fa-print"></i> Cetak
               </button>
-              <button onclick="downloadReportPDF('${studentName.replace(/['"]/g, '')}', '${dateStr}')" style="padding:10px 20px; background:#10b981; color:white; border:none; border-radius:4px; cursor:pointer; font-size:14px">
+              <button class="btn-secondary" onclick="downloadReportPDF('${studentName.replace(/['"]/g, '')}', '${dateStr}')">
                 <i class="fas fa-download"></i> Download PDF
               </button>
-              <button onclick="closeReportModal()" style="padding:10px 20px; background:#999; color:white; border:none; border-radius:4px; cursor:pointer; font-size:14px">
+              <button class="btn-secondary" onclick="closeReportModal()">
                 <i class="fas fa-times"></i> Tutup
               </button>
             </div>
@@ -2388,6 +2401,22 @@
 
       // Inject and show
       document.body.insertAdjacentHTML('beforeend', reportContent);
+
+      const modal = document.getElementById('reportModal');
+      if (modal) {
+        requestAnimationFrame(() => modal.classList.add('is-open'));
+
+        // Close when clicking outside the modal card
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) window.closeReportModal();
+        });
+
+        // Close on Escape
+        window.__reportModalEscHandler = (e) => {
+          if (e.key === 'Escape') window.closeReportModal();
+        };
+        window.addEventListener('keydown', window.__reportModalEscHandler);
+      }
 
       // Store for print/download
       window.currentReportData = { dateStr, studentName, acTableHtml, dcTableHtml, quizScore, quizGrade };
@@ -2467,7 +2496,18 @@
 
     window.closeReportModal = () => {
       const modal = document.getElementById('reportModal');
-      if (modal) modal.remove();
+      if (!modal) return;
+
+      modal.classList.remove('is-open');
+      const remove = () => modal.remove();
+
+      // Clean up Escape handler
+      if (window.__reportModalEscHandler) {
+        window.removeEventListener('keydown', window.__reportModalEscHandler);
+        window.__reportModalEscHandler = null;
+      }
+
+      setTimeout(remove, 260);
     };
 
     // =========================================================

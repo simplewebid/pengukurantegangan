@@ -1,7 +1,7 @@
 /* Simple offline-first service worker (public site, no login). */
 
 // Bump this when you deploy changes, so clients refresh cached assets.
-const CACHE_NAME = "pengukuranlistrik-v3";
+const CACHE_NAME = "pengukuranlistrik-v7";
 
 const PRECACHE_URLS = [
   "./",
@@ -13,10 +13,14 @@ const PRECACHE_URLS = [
   "./kuis.html",
   "./tentang.html",
   "./style.css",
+  "./aiTutor.css",
+  "./knowledgeBase.js",
+  "./aiTutor.js",
   "./script.js",
   "./manifest.webmanifest",
-  "./logoftunp.png",
+  "./logobaru.png",
   "./afri.png",
+  "./haikal.png",
   "./selsa.png",
   "./suci.png",
   "./offline.html"

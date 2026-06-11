@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Simulasi Interaktif Pengukuran Listrik — Latihan membaca skala multimeter dan simulator osiloskop CRO online FT-UNP." />
+  <meta name="description" content="Simulasi Virtual Pengukuran Listrik — Latihan membaca skala multimeter dan simulator osiloskop CRO online FT-UNP." />
   <meta name="keywords" content="Pengukuran Listrik, Tegangan AC, Tegangan DC, Laboratorium, Teknik Elektro, UNP" />
-  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari — S1 Pendidikan Teknik Elektro UNP" />
+  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari, M Haikal Alami Putra — Universitas Negeri Padang" />
   <meta name="robots" content="index, follow" />
-  <title>Simulasi Interaktif &mdash; PengukuranListrik</title>
+  <title>Simulasi Virtual &mdash; PengukuranListrik</title>
   <meta name="theme-color" content="#111111" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="logoftunp.png" />
-  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="icon" href="logobaru.png" />
+  <link rel="apple-touch-icon" href="logobaru.png" />
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="aiTutor.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -33,7 +34,8 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
-        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <img src="logobaru.png" alt="Logo Departemen Teknik Elektro UNP" class="brand-logo">
+        <span class="brand-name">DAPARTEMEN TEKNIK ELEKTRO</span>
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
         </svg>
@@ -47,9 +49,9 @@
           <li><a href="index.html">Beranda</a></li>
           <li><a href="materi.html">Materi</a></li>
           <li><a href="prosedur.html">Prosedur</a></li>
-          <li><a href="simulasi.html" class="is-active">Simulasi</a></li>
-          <li><a href="simulasi-kesalahan.html">Kesalahan</a></li>
-          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="simulasi.html" class="is-active">Simulasi Virtual</a></li>
+          <li><a href="simulasi-kesalahan.html">Kesalahan Pengukuran</a></li>
+          <li><a href="kuis.html">Kuis Evaluasi</a></li>
           <li><a href="tentang.html">Tentang</a></li>
         </ul>
       </nav>
@@ -59,18 +61,45 @@
     <section id="simulasi" class="section" data-section>
       <div class="container">
         <div style="margin-bottom:2rem">
-          <span class="badge">Simulasi</span>
-          <h2 class="section-title" style="margin-top:0.5rem">Simulasi Interaktif</h2>
-          <p class="section-subtitle">Latihan membaca alat ukur secara virtual</p>
+          <span class="badge">Simulasi Virtual</span>
+          <h2 class="section-title" style="margin-top:0.5rem">Simulasi Virtual Pengukuran Tegangan</h2>
+          <p class="section-subtitle">Latihan pengukuran tegangan DC, tegangan AC, dan pembacaan bentuk gelombang menggunakan osiloskop sederhana.</p>
+        </div>
+
+        <div class="simulation-overview">
+          <article class="card simulation-overview-card">
+            <i class="fas fa-battery-half"></i>
+            <div>
+              <h3>Simulasi Pengukuran Tegangan DC</h3>
+              <p>Latihan memilih batas ukur, membaca jarum multimeter, dan memperhatikan polaritas probe.</p>
+            </div>
+          </article>
+          <article class="card simulation-overview-card">
+            <i class="fas fa-bolt"></i>
+            <div>
+              <h3>Simulasi Pengukuran Tegangan AC</h3>
+              <p>Latihan mengidentifikasi sumber AC, memilih ACV, dan membaca nilai efektif tegangan.</p>
+            </div>
+          </article>
+          <article class="card simulation-overview-card">
+            <i class="fas fa-wave-square"></i>
+            <div>
+              <h3>Simulasi Osiloskop Sederhana</h3>
+              <p>Visualisasi sinyal AC, amplitudo, periode, dan garis referensi 0V.</p>
+            </div>
+          </article>
         </div>
 
         <!-- Sim A -->
         <div class="sim-block">
           <div class="sim-header">
-            <span style="font-size:1.3rem"><i class="fas fa-bullseye"></i></span>
-            <h3>Simulasi A &mdash; Latihan Baca Skala Multimeter</h3>
+            <span style="font-size:1.3rem"><i class="fas fa-battery-half"></i></span>
+            <h3>Simulasi Pengukuran Tegangan DC</h3>
           </div>
           <div class="sim-body">
+            <div class="sim-note">
+              <strong>Fokus latihan:</strong> pilih batas ukur DCV yang aman, pasang probe merah ke terminal positif, probe hitam ke terminal negatif, lalu baca skala multimeter.
+            </div>
             <div class="meter-layout">
               <div class="meter-canvas-wrap">
                 <canvas id="meterCanvas" width="420" height="260" aria-label="Simulasi muka multimeter analog"></canvas>
@@ -124,13 +153,170 @@
           </div>
         </div>
 
+        <div class="sim-block">
+          <div class="sim-header">
+            <span style="font-size:1.3rem"><i class="fas fa-bolt"></i></span>
+            <h3>Simulasi Pengukuran Tegangan AC</h3>
+          </div>
+          <div class="sim-body">
+            <div class="sim-note">
+              <strong>Fokus latihan:</strong> ukur keluaran transformator AC dengan mode ACV, pilih batas ukur aman, lalu baca nilai efektif (RMS) pada multimeter analog.
+            </div>
+
+            <div class="ac-lab">
+              <div class="ac-board">
+                <div class="ac-board-head">
+                  <div>
+                    <p class="readout-title" style="color:#ff8a1f;margin:0 0 0.35rem">Panel Rangkaian AC</p>
+                    <h4 class="ac-panel-title">Transformator 220 V / 6-CT-6 V</h4>
+                  </div>
+                  <span class="ac-chip">Sumber AC</span>
+                </div>
+
+                <div class="ac-transformer-visual" aria-label="Diagram transformator AC 6 CT 6 volt">
+                  <div class="ac-primary">
+                    <span>Primer</span>
+                    <strong>220 V</strong>
+                    <small>PLN</small>
+                  </div>
+                  <div class="ac-core" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="ac-secondary">
+                    <span>Sekunder</span>
+                    <div class="ac-terminal-map">
+                      <button class="ac-node is-active" type="button" data-ac-terminal data-label="CT - Ujung A" data-voltage="6" data-red="Ujung A" data-black="CT">
+                        <strong>A</strong><small>6 V</small>
+                      </button>
+                      <button class="ac-node" type="button" data-ac-terminal data-label="CT - Ujung B" data-voltage="6" data-red="Ujung B" data-black="CT">
+                        <strong>B</strong><small>6 V</small>
+                      </button>
+                      <button class="ac-node ac-node--wide" type="button" data-ac-terminal data-label="Ujung A - Ujung B" data-voltage="12" data-red="Ujung A" data-black="Ujung B">
+                        <strong>A-B</strong><small>12 V</small>
+                      </button>
+                      <span class="ac-ct-label">CT</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ac-wave-mini" aria-hidden="true">
+                  <svg viewBox="0 0 360 96" role="img">
+                    <path class="ac-wave-grid" d="M0 48H360M40 0V96M80 0V96M120 0V96M160 0V96M200 0V96M240 0V96M280 0V96M320 0V96"></path>
+                    <path class="ac-wave-zero" d="M0 48H360"></path>
+                    <path class="ac-wave-path" d="M0 48 C30 8 60 8 90 48 S150 88 180 48 S240 8 270 48 S330 88 360 48"></path>
+                  </svg>
+                  <div class="ac-wave-labels">
+                    <span>Sinyal AC</span>
+                    <strong id="acActualVoltageText">6.00 V RMS</strong>
+                  </div>
+                </div>
+
+                <div class="ac-probe-card">
+                  <div class="ac-probe-row">
+                    <span class="probe-dot red"></span>
+                    <p>Probe merah ke <strong id="acRedProbeText">Ujung A</strong></p>
+                  </div>
+                  <div class="ac-probe-row">
+                    <span class="probe-dot black"></span>
+                    <p>Probe hitam ke <strong id="acBlackProbeText">CT</strong></p>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="ac-control-label">Pilih terminal pengukuran</p>
+                  <div class="ac-terminal-row" aria-label="Terminal simulasi tegangan AC">
+                    <button class="ac-terminal is-active" type="button" data-ac-terminal data-label="CT - Ujung A" data-voltage="6" data-red="Ujung A" data-black="CT">CT - Ujung A</button>
+                    <button class="ac-terminal" type="button" data-ac-terminal data-label="CT - Ujung B" data-voltage="6" data-red="Ujung B" data-black="CT">CT - Ujung B</button>
+                    <button class="ac-terminal" type="button" data-ac-terminal data-label="Ujung A - Ujung B" data-voltage="12" data-red="Ujung A" data-black="Ujung B">Ujung A - Ujung B</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ac-meter-panel">
+                <div class="ac-meter-head">
+                  <div>
+                    <p class="readout-title" style="color:#111;margin:0 0 0.35rem">Multimeter Analog AC</p>
+                    <h4 class="ac-panel-title ac-panel-title--dark">Mode ACV (~)</h4>
+                  </div>
+                  <span class="ac-status" id="acStatus">Aman</span>
+                </div>
+
+                <div class="ac-meter-face" aria-label="Muka multimeter AC virtual">
+                  <div class="ac-meter-scale">
+                    <span>0</span>
+                    <span>25</span>
+                    <span>50</span>
+                  </div>
+                  <div class="ac-meter-arc"></div>
+                  <div class="ac-meter-needle" id="acNeedle"></div>
+                  <div class="ac-meter-pivot"></div>
+                </div>
+
+                <div class="ac-range-row" aria-label="Pilih batas ukur ACV">
+                  <button class="ac-range is-active" type="button" data-ac-range="10">10 V ACV</button>
+                  <button class="ac-range" type="button" data-ac-range="50">50 V ACV</button>
+                  <button class="ac-range" type="button" data-ac-range="250">250 V ACV</button>
+                </div>
+
+                <div class="ac-guidance" id="acRecommendationText">Range 10 V aman untuk pengukuran 6 V RMS.</div>
+
+                <div class="ac-readout-grid">
+                  <div>
+                    <span>Terminal</span>
+                    <strong id="acTerminalText">CT - Ujung A</strong>
+                  </div>
+                  <div>
+                    <span>Batas Ukur</span>
+                    <strong id="acRangeText">10 V ACV</strong>
+                  </div>
+                  <div>
+                    <span>Penunjukan Jarum</span>
+                    <strong id="acPointerText">6.00 / 10</strong>
+                  </div>
+                  <div>
+                    <span>Hasil Terbaca</span>
+                    <strong id="acResultText">6.00 V RMS</strong>
+                  </div>
+                  <div>
+                    <span>Skala Dipakai</span>
+                    <strong id="acScaleText">0-10</strong>
+                  </div>
+                  <div>
+                    <span>Jenis Nilai</span>
+                    <strong>RMS / Efektif</strong>
+                  </div>
+                </div>
+                <p class="ac-formula" id="acFormulaText">Hasil = (10 / 10) x 6.00 = 6.00 V RMS</p>
+              </div>
+            </div>
+
+            <div class="measurement-steps measurement-steps--inline">
+              <article>
+                <span>1</span>
+                <p><strong>Pilih mode ACV.</strong> Gunakan posisi AC Voltage karena sumber berasal dari transformator.</p>
+              </article>
+              <article>
+                <span>2</span>
+                <p><strong>Mulai dari batas ukur tinggi.</strong> Pilih 50 V bila nilai sumber belum dipastikan, lalu turunkan bila aman.</p>
+              </article>
+              <article>
+                <span>3</span>
+                <p><strong>Baca nilai RMS.</strong> Multimeter AC menampilkan tegangan efektif, sedangkan bentuk gelombang dilihat pada osiloskop.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+
         <!-- Sim B -->
         <div class="sim-block">
           <div class="sim-header">
             <span style="font-size:1.3rem"><i class="fas fa-wave-square"></i></span>
-            <h3>Simulasi B &mdash; Osiloskop / CRO Simulator</h3>
+            <h3>Simulasi Osiloskop Sederhana</h3>
           </div>
           <div class="sim-body">
+            <div class="sim-note">
+              Visualisasi osiloskop menampilkan <strong>Sinyal AC</strong>, <strong>Amplitudo</strong>, <strong>Periode</strong>, dan <strong>Garis referensi 0V</strong> pada layar.
+            </div>
             <div class="cro-layout">
               <div class="cro-screen-wrap">
                 <canvas id="croCanvas" width="500" height="300" aria-label="Layar osiloskop simulator"></canvas>
@@ -236,7 +422,7 @@
         <!-- Left column -->
         <div>
           <div class="footer-brand">
-            <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="footer-logo">
+            <img src="logobaru.png" alt="Logo Departemen Teknik Elektro UNP" class="footer-logo">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
             </svg>
@@ -273,15 +459,23 @@
             </li>
             <li>
               <span><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</span>
-              <span class="footer-nim">25063227</span>
+              <span class="footer-nim">25063027</span>
             </li>
             <li>
               <span><i class="fas fa-user-graduate"></i> Suci Wulandari</span>
               <span class="footer-nim">25063029</span>
             </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> M Haikal Alami Putra</span>
+              <span class="footer-nim">24364030</span>
+            </li>
+            <li>
+              <span><i class="fas fa-chalkboard-teacher"></i> Puji Nurrahmawati, S.Si., M.T</span>
+              <span class="footer-nim">NIP 199301292023212026</span>
+            </li>
           </ul>
           <p style="margin:0.75rem 0 0;font-size:0.82rem;color:#6e7681">
-            S1 Pendidikan Teknik Elektro &mdash; UNP 2026
+            Universitas Negeri Padang
           </p>
           <p class="footer-meta">Versi 1.0 &bull; Terakhir diperbarui: 6 Mei 2026</p>
         </div>
@@ -294,6 +488,8 @@
       </div>
     </div>
   </footer>
+  <script src="knowledgeBase.js"></script>
+  <script src="aiTutor.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -244,6 +244,45 @@
       });
     })();
 
+    // Footer identity for LIDM 2026 IPDP
+    (() => {
+      const footerDescriptions = document.querySelectorAll('.site-footer .footer-desc');
+      footerDescriptions.forEach((footerDesc) => {
+        if (footerDesc.querySelector('[data-footer-identity="lidm-2026"]')) return;
+
+        const identity = document.createElement('span');
+        identity.className = 'footer-identity';
+        identity.setAttribute('data-footer-identity', 'lidm-2026');
+        identity.innerHTML = `
+          <span class="footer-row">
+            <i class="fas fa-award"></i>
+            <span class="footer-key">Lomba</span>
+            <span class="footer-sep">:</span>
+            <span class="footer-val">LIDM 2026</span>
+          </span>
+          <span class="footer-row">
+            <i class="fas fa-layer-group"></i>
+            <span class="footer-key">Divisi</span>
+            <span class="footer-sep">:</span>
+            <span class="footer-val">IPDP - Inovasi Pembelajaran Digital Pendidikan</span>
+          </span>
+          <span class="footer-row">
+            <i class="fas fa-laptop-code"></i>
+            <span class="footer-key">Jenis Karya</span>
+            <span class="footer-sep">:</span>
+            <span class="footer-val">Media Pembelajaran Digital Berbasis Virtual Lab</span>
+          </span>
+          <span class="footer-row">
+            <i class="fas fa-wave-square"></i>
+            <span class="footer-key">Topik</span>
+            <span class="footer-sep">:</span>
+            <span class="footer-val">Pengukuran Tegangan AC dan DC Menggunakan Multimeter dan Osiloskop</span>
+          </span>
+        `;
+        footerDesc.appendChild(identity);
+      });
+    })();
+
     // =========================================================
     // PHASE 2 — MATERI MODULE CONTROLLERS
     // =========================================================
@@ -1105,6 +1144,95 @@
       updateScoreboard();
     })();
 
+    // ── Sim AC — Transformer + Analog Multimeter ───────────────
+    (() => {
+      const terminalBtns = [...document.querySelectorAll('[data-ac-terminal]')];
+      const rangeBtns = [...document.querySelectorAll('[data-ac-range]')];
+      const needle = document.getElementById('acNeedle');
+      if (!terminalBtns.length || !rangeBtns.length || !needle) return;
+
+      const state = {
+        voltage: parseFloat(terminalBtns.find(btn => btn.classList.contains('is-active'))?.dataset.voltage || '6'),
+        terminal: terminalBtns.find(btn => btn.classList.contains('is-active'))?.dataset.label || 'CT - Ujung A',
+        redProbe: terminalBtns.find(btn => btn.classList.contains('is-active'))?.dataset.red || 'Ujung A',
+        blackProbe: terminalBtns.find(btn => btn.classList.contains('is-active'))?.dataset.black || 'CT',
+        range: parseFloat(rangeBtns.find(btn => btn.classList.contains('is-active'))?.dataset.acRange || '10')
+      };
+
+      const scaleMaxFromRange = (range) => range <= 10 ? 10 : 50;
+
+      const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      const renderAcSim = () => {
+        const scaleMax = scaleMaxFromRange(state.range);
+        const scaleFactor = state.range / scaleMax;
+        const pointer = state.voltage / scaleFactor;
+        const isOverRange = state.voltage > state.range;
+        const isTooLarge = state.voltage <= state.range && pointer < scaleMax * 0.18;
+        const pointerClamped = Math.max(0, Math.min(scaleMax, pointer));
+        const pct = pointerClamped / scaleMax;
+        const rotation = -54 + (pct * 108);
+
+        needle.style.setProperty('--ac-needle-rot', `${rotation.toFixed(2)}deg`);
+        setText('acTerminalText', state.terminal);
+        setText('acRangeText', `${state.range} V ACV`);
+        setText('acPointerText', isOverRange ? `Melewati skala ${scaleMax}` : `${pointer.toFixed(2)} / ${scaleMax}`);
+        setText('acResultText', isOverRange ? 'Over-range' : `${state.voltage.toFixed(2)} V RMS`);
+        setText('acActualVoltageText', `${state.voltage.toFixed(2)} V RMS`);
+        setText('acRedProbeText', state.redProbe);
+        setText('acBlackProbeText', state.blackProbe);
+        setText('acScaleText', `0-${scaleMax}`);
+        setText('acFormulaText', isOverRange
+          ? `Peringatan: ${state.voltage.toFixed(2)} V lebih besar dari batas ukur ${state.range} V. Naikkan batas ukur agar multimeter aman.`
+          : `Hasil = (${state.range} / ${scaleMax}) x ${pointer.toFixed(2)} = ${state.voltage.toFixed(2)} V RMS`
+        );
+
+        const status = document.getElementById('acStatus');
+        if (status) {
+          status.textContent = isOverRange ? 'Over-range' : isTooLarge ? 'Kurang presisi' : 'Aman';
+          status.classList.toggle('is-warning', isOverRange);
+        }
+
+        const recommendation = document.getElementById('acRecommendationText');
+        if (recommendation) {
+          recommendation.classList.toggle('is-warning', isOverRange);
+          if (isOverRange) {
+            recommendation.textContent = `Batas ukur ${state.range} V terlalu kecil untuk ${state.voltage.toFixed(2)} V RMS. Pilih 50 V ACV atau 250 V ACV.`;
+          } else if (isTooLarge) {
+            recommendation.textContent = `Batas ukur ${state.range} V aman, tetapi jarum kecil. Turunkan range bila tersedia agar pembacaan lebih jelas.`;
+          } else {
+            recommendation.textContent = `Batas ukur ${state.range} V aman untuk pengukuran ${state.voltage.toFixed(2)} V RMS.`;
+          }
+        }
+      };
+
+      terminalBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const label = btn.dataset.label || btn.textContent.trim();
+          terminalBtns.forEach(item => item.classList.toggle('is-active', item.dataset.label === label));
+          state.voltage = parseFloat(btn.dataset.voltage || '0');
+          state.terminal = label;
+          state.redProbe = btn.dataset.red || 'Probe merah';
+          state.blackProbe = btn.dataset.black || 'Probe hitam';
+          renderAcSim();
+        });
+      });
+
+      rangeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          rangeBtns.forEach(item => item.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          state.range = parseFloat(btn.dataset.acRange || '10');
+          renderAcSim();
+        });
+      });
+
+      renderAcSim();
+    })();
+
     // ── Sim B — CRO Oscilloscope Simulator ─────────────────────
     (() => {
       const canvas = document.getElementById('croCanvas');
@@ -1208,6 +1336,62 @@
         ctx.restore();
       };
 
+      const drawScopeLabels = () => {
+        const { freq, amp } = getParams();
+        const cy = CH / 2;
+        const ampPx = amp * cellH;
+        const periodPx = CW / Math.max(1, freq);
+        const baseX = 58;
+        const crestY = cy - ampPx;
+
+        ctx.save();
+        ctx.font = 'bold 12px Inter, Arial, sans-serif';
+        ctx.fillStyle = '#ffb15c';
+        ctx.fillText('Sinyal AC', 16, 24);
+
+        ctx.strokeStyle = 'rgba(255,177,92,0.9)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(0, cy);
+        ctx.lineTo(CW, cy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 11px Inter, Arial, sans-serif';
+        ctx.fillText('Garis referensi 0V', CW - 142, cy - 8);
+
+        ctx.strokeStyle = '#ffb15c';
+        ctx.fillStyle = '#ffb15c';
+        ctx.beginPath();
+        ctx.moveTo(baseX, cy);
+        ctx.lineTo(baseX, crestY);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(baseX - 5, crestY);
+        ctx.lineTo(baseX + 5, crestY);
+        ctx.moveTo(baseX - 5, cy);
+        ctx.lineTo(baseX + 5, cy);
+        ctx.stroke();
+        ctx.fillText('Amplitudo', baseX + 10, Math.max(34, crestY + ampPx / 2));
+
+        const periodY = CH - 28;
+        const pStart = 90;
+        const pEnd = Math.min(CW - 42, pStart + periodPx);
+        ctx.strokeStyle = '#93c5fd';
+        ctx.fillStyle = '#93c5fd';
+        ctx.beginPath();
+        ctx.moveTo(pStart, periodY);
+        ctx.lineTo(pEnd, periodY);
+        ctx.moveTo(pStart, periodY - 5);
+        ctx.lineTo(pStart, periodY + 5);
+        ctx.moveTo(pEnd, periodY - 5);
+        ctx.lineTo(pEnd, periodY + 5);
+        ctx.stroke();
+        ctx.fillText('Periode', pStart + Math.max(10, (pEnd - pStart) / 2 - 20), periodY - 8);
+        ctx.restore();
+      };
+
       /* ---- Readout update ---- */
       const updateReadout = () => {
         const { freq, amp, vdiv, tdiv } = getParams();
@@ -1231,6 +1415,7 @@
       const renderCRO = () => {
         drawGrid();
         drawWave();
+        drawScopeLabels();
         updateReadout();
         if (state.running) {
           state.phase += 0.05;
@@ -1734,6 +1919,12 @@
       if (stored && !input.value) input.value = stored;
     };
 
+    const quizGetResultStatus = (score) => {
+      if (score >= 80) return 'Baik';
+      if (score >= 60) return 'Cukup';
+      return 'Perlu belajar ulang';
+    };
+
     const quizBuildResultPayload = () => {
       const correct  = QuizState.answers.filter(a => a.correct).length;
       const total    = QuizState.questions.length;
@@ -1749,18 +1940,24 @@
 
       const userName = QuizState.userName || quizGetUserName();
 
-      return { userName, correct, wrong, total, accuracy, score, grade };
+      const status = quizGetResultStatus(score);
+
+      return { userName, correct, wrong, total, accuracy, score, grade, status };
     };
 
     const quizBuildResultText = () => {
-      const { userName, score, grade, correct, total, accuracy } = quizBuildResultPayload();
+      const { userName, score, grade, correct, wrong, total, accuracy, status } = quizBuildResultPayload();
       const when = new Date().toLocaleString('id-ID');
       const who = userName ? `Nama: ${userName}\n` : '';
       return (
         `Hasil Kuis Pengukuran Tegangan AC & DC\n` +
         `${who}` +
-        `Skor: ${score}/100 (Grade ${grade})\n` +
-        `Benar: ${correct}/${total} — Akurasi: ${accuracy}%\n` +
+        `Jumlah soal: ${total}\n` +
+        `Jawaban benar: ${correct}\n` +
+        `Jawaban salah: ${wrong}\n` +
+        `Skor akhir: ${score}/100 (Grade ${grade})\n` +
+        `Keterangan: ${status}\n` +
+        `Akurasi: ${accuracy}%\n` +
         `Waktu: ${when}\n` +
         `FT-UNP 2026`
       );
@@ -1963,10 +2160,9 @@
 
       // Grade
       let grade, gradeClass;
-      if (score >= 90)      { grade = 'A — Sangat Baik';    gradeClass = 'grade-A'; }
-      else if (score >= 75) { grade = 'B — Baik';           gradeClass = 'grade-B'; }
-      else if (score >= 60) { grade = 'C — Cukup Baik';    gradeClass = 'grade-C'; }
-      else                   { grade = 'D — Perlu Belajar'; gradeClass = 'grade-D'; }
+      if (score >= 80)      { grade = 'Baik';                gradeClass = 'grade-A'; }
+      else if (score >= 60) { grade = 'Cukup';               gradeClass = 'grade-C'; }
+      else                   { grade = 'Perlu belajar ulang'; gradeClass = 'grade-D'; }
 
       quizShowScreen('screenResult');
 
@@ -1994,6 +2190,11 @@
       set('rCorrect',  correct);
       set('rWrong',    wrong);
       set('rAccuracy', `${accuracy}%`);
+      set('summaryTotal', total);
+      set('summaryCorrect', correct);
+      set('summaryWrong', wrong);
+      set('summaryScore', `${score}/100`);
+      set('summaryStatus', grade);
 
       // User label
       const userEl = document.getElementById('resultUser');
@@ -2111,6 +2312,275 @@
 
       // If user reloads on result screen for any reason, keep button present
       quizEnsureWhatsAppButton();
+    })();
+
+    // ── Entry Pre-Test: 5 multimeter + 5 osiloskop ──────────────
+    (() => {
+      const overlay = document.getElementById('entryPretest');
+      if (!overlay) return;
+
+      const RESULT_KEY = 'voltaEntryPretestResult:v1';
+      const QUESTIONS = [
+        {
+          category: 'Membaca Multimeter',
+          q: 'Multimeter analog berada pada batas ukur DC 10 V. Jarum menunjuk angka 6,2 pada skala 0-10. Berapa tegangan yang terbaca?',
+          options: ['0,62 V', '6,2 V', '10,2 V', '62 V'],
+          answer: 1,
+          explanation: 'Pada batas 10 V, skala 0-10 dibaca langsung. Jadi 6,2 berarti 6,2 V.'
+        },
+        {
+          category: 'Membaca Multimeter',
+          q: 'Batas ukur multimeter dipilih 50 V DC. Jarum menunjuk angka 4 pada skala 0-10. Berapa hasil pengukuran?',
+          options: ['4 V', '10 V', '20 V', '50 V'],
+          answer: 2,
+          explanation: 'Skala 0-10 dikalikan faktor 50/10 = 5. Jadi 4 x 5 = 20 V.'
+        },
+        {
+          category: 'Membaca Multimeter',
+          q: 'Saat mengukur AC pada batas 250 V, jarum berada tepat pada angka 180 di skala 0-250. Nilai yang benar adalah...',
+          options: ['18 V AC', '90 V AC', '180 V AC', '250 V AC'],
+          answer: 2,
+          explanation: 'Jika skala 0-250 sesuai dengan batas ukur 250 V, angka jarum dibaca langsung sebagai 180 V AC.'
+        },
+        {
+          category: 'Membaca Multimeter',
+          q: 'Sumber diperkirakan sekitar 18 V, tetapi multimeter analog disetel pada batas ukur 10 V. Tindakan paling tepat adalah...',
+          options: ['Tetap ukur agar lebih presisi', 'Naikkan batas ukur ke 50 V atau lebih sesuai alat', 'Pindah ke skala ohm', 'Balik polaritas probe terus-menerus'],
+          answer: 1,
+          explanation: 'Batas ukur harus lebih besar dari tegangan yang diperkirakan agar alat tidak over-range dan tetap aman.'
+        },
+        {
+          category: 'Membaca Multimeter',
+          q: 'Batas ukur 25 V DC digunakan. Jarum menunjuk 7,5 pada skala 0-10. Berapa hasil ukur yang mendekati benar?',
+          options: ['7,5 V', '12,5 V', '18,75 V', '25 V'],
+          answer: 2,
+          explanation: 'Nilai = 7,5/10 x 25 V = 18,75 V.'
+        },
+        {
+          category: 'Membaca Osiloskop',
+          q: 'Pada osiloskop, tinggi gelombang dari puncak atas ke puncak bawah adalah 3 div. Jika volts/div = 2 V/div, berapa Vpp sinyal?',
+          options: ['1,5 Vpp', '3 Vpp', '6 Vpp', '12 Vpp'],
+          answer: 2,
+          explanation: 'Vpp = jumlah divisi vertikal x volts/div = 3 x 2 V = 6 Vpp.'
+        },
+        {
+          category: 'Membaca Osiloskop',
+          q: 'Gelombang sinus memiliki Vpp = 8 V. Berapa nilai Vrms yang mendekati benar?',
+          options: ['2,83 V', '4 V', '5,66 V', '8 V'],
+          answer: 0,
+          explanation: 'Vp = Vpp/2 = 4 V. Untuk sinus, Vrms = Vp/sqrt(2) = 2,83 V.'
+        },
+        {
+          category: 'Membaca Osiloskop',
+          q: 'Satu periode gelombang menempati 4 div horizontal. Jika time/div = 1 ms/div, berapa frekuensi sinyal?',
+          options: ['25 Hz', '100 Hz', '250 Hz', '1 kHz'],
+          answer: 2,
+          explanation: 'Periode T = 4 x 1 ms = 4 ms. Frekuensi f = 1/T = 1/0,004 = 250 Hz.'
+        },
+        {
+          category: 'Membaca Osiloskop',
+          q: 'Puncak gelombang berada 2,5 div di atas garis referensi 0 V. Jika volts/div = 1 V/div, berapa amplitudo sinyal?',
+          options: ['1 V', '2,5 V', '5 V', '10 V'],
+          answer: 1,
+          explanation: 'Amplitudo adalah jarak dari 0 V ke puncak. Jadi 2,5 div x 1 V/div = 2,5 V.'
+        },
+        {
+          category: 'Membaca Osiloskop',
+          q: 'Satu periode sinyal tampak sepanjang 5 div. Jika time/div = 2 ms/div, berapa periode sinyal tersebut?',
+          options: ['2 ms', '5 ms', '10 ms', '20 ms'],
+          answer: 2,
+          explanation: 'Periode T = 5 div x 2 ms/div = 10 ms.'
+        }
+      ];
+
+      const els = {
+        close: document.getElementById('entryPretestClose'),
+        skip: document.getElementById('entryPretestSkip'),
+        next: document.getElementById('entryPretestNext'),
+        retry: document.getElementById('entryPretestRetry'),
+        finish: document.getElementById('entryPretestFinish'),
+        quiz: document.getElementById('entryPretestQuiz'),
+        result: document.getElementById('entryPretestResult'),
+        category: document.getElementById('entryPretestCategory'),
+        progressText: document.getElementById('entryPretestProgressText'),
+        progressFill: document.getElementById('entryPretestProgressFill'),
+        question: document.getElementById('entryPretestQuestion'),
+        options: document.getElementById('entryPretestOptions'),
+        feedback: document.getElementById('entryPretestFeedback'),
+        score: document.getElementById('entryPretestScore'),
+        total: document.getElementById('entryPretestTotal'),
+        correct: document.getElementById('entryPretestCorrect'),
+        wrong: document.getElementById('entryPretestWrong'),
+        status: document.getElementById('entryPretestStatus'),
+        note: document.getElementById('entryPretestNote')
+      };
+
+      const state = {
+        current: 0,
+        selected: null,
+        answers: [],
+        isResult: false
+      };
+
+      const storageSet = (key, value) => {
+        try { localStorage.setItem(key, value); } catch (_) {}
+      };
+
+      const resultStatus = (score) => {
+        if (score >= 80) return 'Baik';
+        if (score >= 60) return 'Cukup';
+        return 'Perlu belajar ulang';
+      };
+
+      const showScreen = (screen) => {
+        els.quiz.classList.toggle('is-active', screen === 'quiz');
+        els.result.classList.toggle('is-active', screen === 'result');
+      };
+
+      const resetPretest = () => {
+        state.current = 0;
+        state.selected = null;
+        state.answers = [];
+        state.isResult = false;
+        showScreen('quiz');
+        renderQuestion();
+      };
+
+      const openPretest = () => {
+        resetPretest();
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('entry-pretest-open');
+        setTimeout(() => {
+          const firstOption = els.options.querySelector('button');
+          firstOption?.focus();
+        }, 80);
+      };
+
+      const closePretest = () => {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('entry-pretest-open');
+      };
+
+      const optionLabel = (idx) => String.fromCharCode(65 + idx);
+
+      function renderQuestion() {
+        const item = QUESTIONS[state.current];
+        state.selected = null;
+        els.next.disabled = true;
+        els.next.textContent = state.current === QUESTIONS.length - 1 ? 'Lihat Hasil' : 'Soal Berikutnya';
+        els.category.textContent = item.category;
+        els.progressText.textContent = `Soal ${state.current + 1} dari ${QUESTIONS.length}`;
+        els.progressFill.style.width = `${((state.current + 1) / QUESTIONS.length) * 100}%`;
+        els.question.textContent = item.q;
+        els.feedback.textContent = '';
+        els.feedback.className = 'entry-pretest-feedback';
+        els.options.innerHTML = '';
+
+        item.options.forEach((option, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'entry-pretest-option';
+          btn.innerHTML = `<span class="opt-label">${optionLabel(idx)}</span><span></span>`;
+          btn.querySelector('span:last-child').textContent = option;
+          btn.addEventListener('click', () => selectOption(idx));
+          els.options.appendChild(btn);
+        });
+      }
+
+      function selectOption(idx) {
+        if (state.selected !== null) return;
+
+        const item = QUESTIONS[state.current];
+        const buttons = [...els.options.querySelectorAll('.entry-pretest-option')];
+        state.selected = idx;
+        buttons.forEach((btn, optionIdx) => {
+          btn.disabled = true;
+          if (optionIdx === item.answer) btn.classList.add('is-correct');
+          if (optionIdx === idx && idx !== item.answer) btn.classList.add('is-wrong');
+        });
+
+        const isCorrect = idx === item.answer;
+        els.feedback.classList.add(isCorrect ? 'is-correct' : 'is-wrong');
+        els.feedback.textContent = `${isCorrect ? 'Benar.' : 'Belum tepat.'} ${item.explanation}`;
+        els.next.disabled = false;
+        els.next.focus();
+      }
+
+      const buildResult = () => {
+        const correct = state.answers.filter(item => item.correct).length;
+        const wrong = QUESTIONS.length - correct;
+        const score = Math.round((correct / QUESTIONS.length) * 100);
+        const multimeterCorrect = state.answers.filter(item => item.category === 'Membaca Multimeter' && item.correct).length;
+        const oscilloscopeCorrect = state.answers.filter(item => item.category === 'Membaca Osiloskop' && item.correct).length;
+        return {
+          total: QUESTIONS.length,
+          correct,
+          wrong,
+          score,
+          status: resultStatus(score),
+          multimeterCorrect,
+          oscilloscopeCorrect
+        };
+      };
+
+      const showResult = () => {
+        const result = buildResult();
+        state.isResult = true;
+        els.score.textContent = result.score;
+        els.total.textContent = result.total;
+        els.correct.textContent = result.correct;
+        els.wrong.textContent = result.wrong;
+        els.status.textContent = result.status;
+
+        let focusText = 'Lanjutkan ke materi untuk memperkuat pemahaman sebelum praktikum.';
+        if (result.multimeterCorrect < result.oscilloscopeCorrect) {
+          focusText = 'Bagian yang perlu diperkuat lebih dulu: membaca skala multimeter.';
+        } else if (result.oscilloscopeCorrect < result.multimeterCorrect) {
+          focusText = 'Bagian yang perlu diperkuat lebih dulu: membaca tampilan osiloskop.';
+        }
+
+        els.note.textContent = `${focusText} Hasil ini tersimpan lokal di browser.`;
+        storageSet(RESULT_KEY, JSON.stringify({ ...result, finishedAt: new Date().toISOString() }));
+        showScreen('result');
+        setTimeout(() => els.finish.focus(), 80);
+      };
+
+      els.next?.addEventListener('click', () => {
+        if (state.selected === null) return;
+        const item = QUESTIONS[state.current];
+        state.answers.push({
+          category: item.category,
+          correct: state.selected === item.answer
+        });
+
+        if (state.current >= QUESTIONS.length - 1) {
+          showResult();
+          return;
+        }
+
+        state.current += 1;
+        renderQuestion();
+      });
+
+      els.retry?.addEventListener('click', resetPretest);
+      els.finish?.addEventListener('click', closePretest);
+      els.skip?.addEventListener('click', closePretest);
+      els.close?.addEventListener('click', closePretest);
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+          event.preventDefault();
+          closePretest();
+        }
+      });
+
+      window.openEntryPretest = openPretest;
+
+      window.addEventListener('load', () => {
+        setTimeout(openPretest, 2300);
+      });
     })();
 
     // ── Scroll reveal (IntersectionObserver) ────────────────────
@@ -2523,136 +2993,134 @@
 
     const KESALAHAN_SCENARIOS = [
       {
-        title: 'Kesalahan 1: Batas Ukur Terlalu Kecil',
-        icon: '<i class="fas fa-exclamation-triangle" style="font-size:48px; color:#ef4444"></i>',
-        situasi: `
-          Anda akan mengukur tegangan dari trafo 220/6V CT menggunakan multimeter analog. 
-          Tanpa tahu pasti berapa tegangan outputnya, Anda langsung memilih batas ukur 2.5V 
-          untuk mendapatkan pembacaan yang akurat.
-        `,
+        title: 'Kesalahan 1: Mengabaikan K3 saat praktikum',
+        icon: '<i class="fas fa-helmet-safety" style="font-size:48px; color:#ef4444"></i>',
+        situasi: 'Praktikan terburu-buru, tidak memeriksa kabel, menyentuh terminal aktif, atau bekerja tanpa arahan.',
         dampak: `
           <div style="background:#fee2e2; border-left:4px solid #ef4444; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#991b1b"><strong>Dampak Negatif:</strong></p>
+            <p style="margin:0; color:#991b1b"><strong>Dampak:</strong></p>
             <ul style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#991b1b">
-              <li><strong>Jarum melampaui skala (over-range)</strong> — Jarum akan mentok ke kanan melampaui 2.5V</li>
-              <li><strong>Merusak mekanik jarum</strong> — Tekanan berlebih dapat melenturkan atau merusak jarum permanen</li>
-              <li><strong>Kerusakan internal alat</strong> — Arus berlebih dapat merusak resistor/komponen internal</li>
-              <li><strong>Pembacaan mustahil</strong> — Tidak bisa membaca nilai dengan akurat</li>
+              <li>Risiko sengatan listrik meningkat.</li>
+              <li>Alat ukur dan sumber tegangan dapat rusak.</li>
+              <li>Korsleting dan kecelakaan kerja dapat terjadi.</li>
             </ul>
           </div>
         `,
         solusi: `
           <div style="background:#dcfce7; border-left:4px solid #10b981; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#166534"><strong>Solusi Yang Benar:</strong></p>
+            <p style="margin:0; color:#166534"><strong>Cara menghindari:</strong></p>
             <ol style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#166534">
-              <li><strong>Mulai dari range terbesar</strong> — Pilih batas ukur 50V terlebih dahulu</li>
-              <li><strong>Hubungkan ke rangkaian</strong> — Lihat defleksi jarum untuk estimasi tegangan</li>
-              <li><strong>Turunkan range bertahap</strong> — Setelah tahu kisaran tegangan, turunkan ke 10V atau 2.5V</li>
-              <li><strong>Prioritaskan keselamatan alat</strong> — Lebih baik pembacaan kurang akurat daripada merusak alat</li>
+              <li>Matikan sumber saat merangkai atau mengubah sambungan.</li>
+              <li>Gunakan kabel dan probe yang isolasinya baik.</li>
+              <li>Jaga meja kerja kering dan ikuti instruksi dosen/laboran.</li>
             </ol>
           </div>
         `,
-        tips: 'Ingat aturan emas: <strong>Mulai dari range tertinggi, turunkan sesuai kebutuhan!</strong>'
+        tips: 'K3 bukan formalitas; K3 menjaga praktikan, alat, dan data praktikum tetap aman.'
       },
       {
-        title: 'Kesalahan 2: Mode Pengukuran Salah',
+        title: 'Kesalahan 2: Salah memilih batas ukur multimeter',
+        icon: '<i class="fas fa-gauge-high" style="font-size:48px; color:#ef4444"></i>',
+        situasi: 'Praktikan langsung memilih batas ukur rendah tanpa memperkirakan besar tegangan sumber.',
+        dampak: `
+          <div style="background:#fee2e2; border-left:4px solid #ef4444; padding:1rem; border-radius:4px; margin:1rem 0">
+            <p style="margin:0; color:#991b1b"><strong>Dampak:</strong></p>
+            <ul style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#991b1b">
+              <li>Jarum analog dapat mentok atau melewati skala maksimum.</li>
+              <li>Hasil ukur tidak terbaca dengan benar.</li>
+              <li>Komponen internal multimeter berisiko rusak.</li>
+            </ul>
+          </div>
+        `,
+        solusi: `
+          <div style="background:#dcfce7; border-left:4px solid #10b981; padding:1rem; border-radius:4px; margin:1rem 0">
+            <p style="margin:0; color:#166534"><strong>Cara menghindari:</strong></p>
+            <ol style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#166534">
+              <li>Mulai dari batas ukur tertinggi.</li>
+              <li>Amati defleksi jarum untuk memperkirakan nilai.</li>
+              <li>Turunkan range bertahap agar pembacaan lebih presisi.</li>
+            </ol>
+          </div>
+        `,
+        tips: 'Aturan aman: <strong>mulai dari range tertinggi, lalu turunkan sesuai kebutuhan.</strong>'
+      },
+      {
+        title: 'Kesalahan 3: Salah memasang probe pada pengukuran DC',
         icon: '<i class="fas fa-right-left" style="font-size:48px; color:#ef4444"></i>',
-        situasi: `
-          Praktikan perlu mengukur tegangan dari trafo AC 6V. Namun secara tidak sengaja 
-          memutar selektor multimeter ke posisi DCV (DC Voltage) padahal sumber adalah AC. 
-          Praktikan tetap melanjutkan pengukuran tanpa menyadari kesalahan ini.
-        `,
+        situasi: 'Probe merah dan hitam dipasang terbalik terhadap terminal positif dan negatif sumber DC.',
         dampak: `
           <div style="background:#fee2e2; border-left:4px solid #ef4444; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#991b1b"><strong>Dampak Negatif:</strong></p>
+            <p style="margin:0; color:#991b1b"><strong>Dampak:</strong></p>
             <ul style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#991b1b">
-              <li><strong>Pembacaan tidak valid</strong> — Multimeter DCV tidak akan membaca tegangan AC dengan benar</li>
-              <li><strong>Hasil pengamatan salah</strong> — Data praktikum menjadi tidak sesuai teori</li>
-              <li><strong>Laporan tidak akurat</strong> — Analisis dan kesimpulan praktikum berdasarkan data salah</li>
-              <li><strong>Nilai praktikum berkurang</strong> — Dosen akan mendeteksi kesalahan sistematis</li>
+              <li>Jarum multimeter analog bergerak ke arah negatif.</li>
+              <li>Data pengukuran menjadi keliru atau terbaca negatif.</li>
+              <li>Mekanik jarum dapat tertekan jika pengukuran dipaksakan.</li>
             </ul>
           </div>
         `,
         solusi: `
           <div style="background:#dcfce7; border-left:4px solid #10b981; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#166534"><strong>Solusi Yang Benar:</strong></p>
+            <p style="margin:0; color:#166534"><strong>Cara menghindari:</strong></p>
             <ol style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#166534">
-              <li><strong>Identifikasi jenis sumber terlebih dahulu</strong> — AC atau DC?</li>
-              <li><strong>Untuk trafo/sumber AC</strong> → Pilih mode <strong>ACV</strong> (AC Voltage)</li>
-              <li><strong>Untuk PSU/battery</strong> → Pilih mode <strong>DCV</strong> (DC Voltage)</li>
-              <li><strong>Periksa label/datasheet</strong> — Sumber listrik biasanya tertera labelnya</li>
-              <li><strong>Minta verifikasi dosen</strong> — Sebelum pengukuran, konfirmasi mode yang tepat</li>
+              <li>Probe merah dipasang ke terminal positif.</li>
+              <li>Probe hitam dipasang ke terminal negatif.</li>
+              <li>Matikan sumber terlebih dahulu bila perlu memperbaiki sambungan.</li>
             </ol>
           </div>
         `,
-        tips: 'Cek jenis sumber dulu: <strong>Trafo/Listrik Rumah = AC (ACV), PSU/Baterai = DC (DCV)</strong>'
+        tips: '<strong>Merah ke positif, hitam ke negatif.</strong> Cek sebelum sumber dinyalakan.'
       },
       {
-        title: 'Kesalahan 3: Probe Terbalik pada DC',
-        icon: '<i class="fas fa-plug" style="font-size:48px; color:#ef4444"></i>',
-        situasi: `
-          Saat mengukur tegangan DC dari PSU, praktikan tidak memperhatikan polaritas probe. 
-          Probe merah (seharusnya ke +) justru ditempel ke terminal negatif PSU, 
-          dan probe hitam ke terminal positif (sebaliknya).
-        `,
+        title: 'Kesalahan 4: Salah membaca skala multimeter analog',
+        icon: '<i class="fas fa-ruler-combined" style="font-size:48px; color:#ef4444"></i>',
+        situasi: 'Praktikan tidak menyesuaikan skala penuh dengan batas ukur yang dipilih pada multimeter analog.',
         dampak: `
           <div style="background:#fee2e2; border-left:4px solid #ef4444; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#991b1b"><strong>Dampak Negatif:</strong></p>
+            <p style="margin:0; color:#991b1b"><strong>Dampak:</strong></p>
             <ul style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#991b1b">
-              <li><strong>Pada multimeter analog</strong> — Jarum akan defleksi ke arah kiri (negatif)</li>
-              <li><strong>Potensi merusak mekanik</strong> — Jarum dipaksa ke negatif bisa merusak stop mekanik</li>
-              <li><strong>Pembacaan negatif</strong> — Nilai yang terbaca jadi negatif (tidak sesuai realitas)</li>
-              <li><strong>Kesalahpahaman data</strong> — Praktikan jadi bingung mengapa nilai negatif</li>
+              <li>Hasil ukur bisa terlalu besar atau terlalu kecil.</li>
+              <li>Tabel pengamatan menjadi tidak valid.</li>
+              <li>Analisis praktikum tidak sesuai kondisi sebenarnya.</li>
             </ul>
           </div>
         `,
         solusi: `
           <div style="background:#dcfce7; border-left:4px solid #10b981; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#166534"><strong>Solusi Yang Benar:</strong></p>
+            <p style="margin:0; color:#166534"><strong>Cara menghindari:</strong></p>
             <ol style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#166534">
-              <li><strong>Ingat standar warna probe</strong> — Merah = Positif (+), Hitam = Negatif (-)</li>
-              <li><strong>Probe merah → Terminal + PSU</strong> — Selalu ke terminal positif</li>
-              <li><strong>Probe hitam → Terminal - PSU</strong> — Selalu ke terminal negatif</li>
-              <li><strong>Jika sudah terbalik, jangan dipaksa</strong> — Lepas dan pasang dengan benar</li>
-              <li><strong>Pada multimeter digital</strong> — Biasanya aman, tapi tetap perhatikan polaritas</li>
+              <li>Cocokkan skala penuh dengan batas ukur yang dipakai.</li>
+              <li>Gunakan rumus faktor skala.</li>
+              <li>Baca jarum tegak lurus untuk mengurangi kesalahan paralaks.</li>
             </ol>
           </div>
         `,
-        tips: '<strong>Merah ke Merah (+), Hitam ke Bumi (-)</strong> — Mudah diingat dengan warna!'
+        tips: 'Rumus kunci: <strong>hasil ukur = batas ukur / skala penuh x penunjukan jarum.</strong>'
       },
       {
-        title: 'Kesalahan 4: Terminal CT Trafo Salah',
-        icon: '<i class="fas fa-sitemap" style="font-size:48px; color:#ef4444"></i>',
-        situasi: `
-          Pada trafo 6V CT (Center Tap), terdapat 3 terminal: CT (tengah), dan dua ujung (6V). 
-          Praktikan ingin mengukur tegangan 6V dari CT ke salah satu ujung, 
-          namun salah menghubungkan probe dan mengukur dari ujung ke ujung 
-          (seharusnya 12V, bukan 6V).
-        `,
+        title: 'Kesalahan 5: Tidak memperhatikan polaritas',
+        icon: '<i class="fas fa-circle-nodes" style="font-size:48px; color:#ef4444"></i>',
+        situasi: 'Terminal sumber, simbol positif-negatif, dan warna kabel tidak diperiksa sebelum pengukuran.',
         dampak: `
           <div style="background:#fee2e2; border-left:4px solid #ef4444; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#991b1b"><strong>Dampak Negatif:</strong></p>
+            <p style="margin:0; color:#991b1b"><strong>Dampak:</strong></p>
             <ul style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#991b1b">
-              <li><strong>Tegangan yang terukur 2x lebih besar</strong> — Bisa terukur ~12V bukan 6V</li>
-              <li><strong>Batas ukur mungkin tidak cukup</strong> — Jika memilih batas 10V, jarum bisa over-range</li>
-              <li><strong>Data hasil pengamatan salah</strong> — Tabel pengamatan menjadi tidak sesuai spesifikasi</li>
-              <li><strong>Teori tidak sesuai praktik</strong> — Analisis berdasarkan data yang keliru</li>
+              <li>Data DC dapat terbaca negatif.</li>
+              <li>Rangkaian dapat dianalisis dengan arah arus yang salah.</li>
+              <li>Kesalahan sambungan dapat menimbulkan korsleting pada rangkaian tertentu.</li>
             </ul>
           </div>
         `,
         solusi: `
           <div style="background:#dcfce7; border-left:4px solid #10b981; padding:1rem; border-radius:4px; margin:1rem 0">
-            <p style="margin:0; color:#166534"><strong>Solusi Yang Benar:</strong></p>
+            <p style="margin:0; color:#166534"><strong>Cara menghindari:</strong></p>
             <ol style="margin:0.5rem 0 0 0; padding-left:1.5rem; color:#166534">
-              <li><strong>Pahami konfigurasi trafo 6V CT</strong> — Ada 3 terminal: CT (tengah), A (6V), B (6V)</li>
-              <li><strong>Untuk mengukur 6V</strong> — Probe ke CT dan salah satu ujung (A atau B)</li>
-              <li><strong>Untuk mengukur 12V</strong> — Probe ke ujung A dan ujung B (ujung ke ujung)</li>
-              <li><strong>Beri label di trafo</strong> — Tulis "CT", "6V-A", "6V-B" agar tidak bingung</li>
-              <li><strong>Konsultasi diagram skematik</strong> — Lihat prosedur praktikum sebelum mengukur</li>
+              <li>Identifikasi terminal positif dan negatif sebelum memasang probe.</li>
+              <li>Ikuti kode warna kabel dan label sumber.</li>
+              <li>Konfirmasi rangkaian sebelum sumber dinyalakan.</li>
             </ol>
           </div>
         `,
-        tips: '<strong>CT trafo 6-CT-6 punya 3 terminal:</strong> Dari CT ke ujung = 6V; Ujung ke ujung = 12V'
+        tips: 'Polaritas wajib diperiksa pada pengukuran DC dan rangkaian berkomponen terpolarisasi.'
       }
     ];
 
@@ -2671,18 +3139,18 @@
           <div style="flex-shrink:0">${scenario.icon}</div>
           <div style="flex:1">
             <h3 style="margin:0 0 1rem 0; color:#111">${scenario.title}</h3>
-            <p style="margin:0; color:#666; line-height:1.6"><strong>Situasi:</strong></p>
+            <p style="margin:0; color:#666; line-height:1.6"><strong>Penyebab:</strong></p>
             <p style="margin:0.5rem 0 0 0; color:#555; line-height:1.6">${scenario.situasi}</p>
           </div>
         </div>
 
         <div style="margin:2rem 0">
-          <h4 style="margin:0 0 1rem 0; color:#111">Dampak Jika Kesalahan Terjadi:</h4>
+          <h4 style="margin:0 0 1rem 0; color:#111">Dampak Jika Kesalahan Terjadi</h4>
           ${scenario.dampak}
         </div>
 
         <div style="margin:2rem 0">
-          <h4 style="margin:0 0 1rem 0; color:#111">Cara Menghindari & Solusi:</h4>
+          <h4 style="margin:0 0 1rem 0; color:#111">Cara Menghindari</h4>
           ${scenario.solusi}
         </div>
 
@@ -2800,26 +3268,26 @@
           keywords: 'laporan praktikum cetak pdf print'
         },
         {
-          title: 'Simulasi — Baca Skala Multimeter',
+          title: 'Simulasi Virtual - Baca Skala Multimeter',
           desc: 'Latihan membaca jarum dan skala.',
           href: 'simulasi.html#simulasi',
           keywords: 'simulasi multimeter jarum skala latihan batas ukur'
         },
         {
-          title: 'Simulasi — CRO / Osiloskop',
+          title: 'Simulasi Virtual - CRO / Osiloskop',
           desc: 'CRO simulator: volts/div, time/div, Vpp, Vrms.',
           href: 'simulasi.html#simulasi',
           keywords: 'cro osiloskop volts div time div vpp vrms freeze run'
         },
         {
-          title: 'Kuis',
+          title: 'Kuis Evaluasi',
           desc: 'Kerjakan kuis dan kirim hasil ke WhatsApp.',
           href: 'kuis.html#kuis',
           keywords: 'kuis soal nilai whatsapp nama pengguna'
         },
         {
-          title: 'Simulasi Kesalahan Umum',
-          desc: 'Batas ukur salah, mode salah, probe terbalik, terminal CT salah.',
+          title: 'Kesalahan Pengukuran',
+          desc: 'Batas ukur salah, probe DC salah, salah baca skala, polaritas, dan K3.',
           href: 'simulasi-kesalahan.html#kesalahan',
           keywords: 'kesalahan batas ukur mode acv dcv probe terbalik ct trafo'
         },

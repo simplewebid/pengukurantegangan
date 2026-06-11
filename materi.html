@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Materi Teori Pengukuran Listrik — Konsep Tegangan AC dan DC, Multimeter Analog, Faktor Skala, dan K3 Laboratorium FT-UNP." />
   <meta name="keywords" content="Pengukuran Listrik, Tegangan AC, Tegangan DC, Laboratorium, Teknik Elektro, UNP" />
-  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari — S1 Pendidikan Teknik Elektro UNP" />
+  <meta name="author" content="Afri Ansyah, Selsa Mar Olivia, Suci Wulandari, M Haikal Alami Putra — Universitas Negeri Padang" />
   <meta name="robots" content="index, follow" />
   <title>Materi Teori &mdash; PengukuranListrik</title>
   <meta name="theme-color" content="#111111" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="logoftunp.png" />
-  <link rel="apple-touch-icon" href="logoftunp.png" />
+  <link rel="icon" href="logobaru.png" />
+  <link rel="apple-touch-icon" href="logobaru.png" />
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="aiTutor.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -33,7 +34,8 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand" aria-label="PengukuranListrik Beranda">
-        <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="brand-logo">
+        <img src="logobaru.png" alt="Logo Departemen Teknik Elektro UNP" class="brand-logo">
+        <span class="brand-name">DAPARTEMEN TEKNIK ELEKTRO</span>
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"></path>
         </svg>
@@ -47,9 +49,9 @@
           <li><a href="index.html">Beranda</a></li>
           <li><a href="materi.html" class="is-active">Materi</a></li>
           <li><a href="prosedur.html">Prosedur</a></li>
-          <li><a href="simulasi.html">Simulasi</a></li>
-          <li><a href="simulasi-kesalahan.html">Kesalahan</a></li>
-          <li><a href="kuis.html">Kuis</a></li>
+          <li><a href="simulasi.html">Simulasi Virtual</a></li>
+          <li><a href="simulasi-kesalahan.html">Kesalahan Pengukuran</a></li>
+          <li><a href="kuis.html">Kuis Evaluasi</a></li>
           <li><a href="tentang.html">Tentang</a></li>
         </ul>
       </nav>
@@ -65,19 +67,19 @@
         </div>
 
         <div class="tab-nav" role="tablist" aria-label="Tab materi pembelajaran">
-          <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="tab-konsep" id="btn-konsep" data-tab="tab-konsep">
+          <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="tab-k3" id="btn-k3" data-tab="tab-k3">
+            <i class="fas fa-vest"></i> K3 Praktikum
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-konsep" id="btn-konsep" data-tab="tab-konsep">
             <i class="fas fa-bolt"></i> Konsep AC &amp; DC
           </button>
           <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-multimeter" id="btn-multimeter" data-tab="tab-multimeter">
             <i class="fas fa-wrench"></i> Multimeter &amp; Skala
           </button>
-          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-k3" id="btn-k3" data-tab="tab-k3">
-            <i class="fas fa-vest"></i> K3 Praktikum
-          </button>
         </div>
 
         <!-- TAB 1 — Konsep Tegangan AC & DC -->
-        <div class="tab-panel is-active" id="tab-konsep" role="tabpanel" aria-labelledby="btn-konsep">
+        <div class="tab-panel" id="tab-konsep" role="tabpanel" aria-labelledby="btn-konsep">
           <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.1 Visualisasi Gelombang</h3>
           <div class="oscilloscope-wrap">
             <div class="osc-card">
@@ -301,7 +303,7 @@
         </div>
 
         <!-- TAB 3 — K3 -->
-        <div class="tab-panel" id="tab-k3" role="tabpanel" aria-labelledby="btn-k3">
+        <div class="tab-panel is-active" id="tab-k3" role="tabpanel" aria-labelledby="btn-k3">
           <h3 class="section-title" style="font-size:1.1rem;margin-bottom:1rem">2.7 Keselamatan &amp; Kesehatan Kerja (K3)</h3>
           <div class="safety-columns">
             <div class="safety-block">
@@ -349,7 +351,7 @@
         <!-- Left column -->
         <div>
           <div class="footer-brand">
-            <img src="logoftunp.png" alt="Logo Fakultas Teknik UNP" class="footer-logo">
+            <img src="logobaru.png" alt="Logo Departemen Teknik Elektro UNP" class="footer-logo">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M13.2 2L5 13h5l-1.2 9L19 10h-5l-.8-8z" fill="currentColor"/>
             </svg>
@@ -386,15 +388,23 @@
             </li>
             <li>
               <span><i class="fas fa-user-graduate"></i> Selsa Mar Olivia</span>
-              <span class="footer-nim">25063227</span>
+              <span class="footer-nim">25063027</span>
             </li>
             <li>
               <span><i class="fas fa-user-graduate"></i> Suci Wulandari</span>
               <span class="footer-nim">25063029</span>
             </li>
+            <li>
+              <span><i class="fas fa-user-graduate"></i> M Haikal Alami Putra</span>
+              <span class="footer-nim">24364030</span>
+            </li>
+            <li>
+              <span><i class="fas fa-chalkboard-teacher"></i> Puji Nurrahmawati, S.Si., M.T</span>
+              <span class="footer-nim">NIP 199301292023212026</span>
+            </li>
           </ul>
           <p style="margin:0.75rem 0 0;font-size:0.82rem;color:#6e7681">
-            S1 Pendidikan Teknik Elektro &mdash; UNP 2026
+            Universitas Negeri Padang
           </p>
           <p class="footer-meta">Versi 1.0 &bull; Terakhir diperbarui: 6 Mei 2026</p>
         </div>
@@ -407,6 +417,8 @@
       </div>
     </div>
   </footer>
+  <script src="knowledgeBase.js"></script>
+  <script src="aiTutor.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

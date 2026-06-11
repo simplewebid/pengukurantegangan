@@ -2320,6 +2320,7 @@
       if (!overlay) return;
 
       const RESULT_KEY = 'voltaEntryPretestResult:v1';
+      try { localStorage.removeItem('voltaEntryPretestSeen:v1'); } catch (_) {}
       const QUESTIONS = [
         {
           category: 'Membaca Multimeter',

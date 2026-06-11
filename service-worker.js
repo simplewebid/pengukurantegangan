@@ -1,7 +1,7 @@
 /* Simple offline-first service worker (public site, no login). */
 
 // Bump this when you deploy changes, so clients refresh cached assets.
-const CACHE_NAME = "pengukuranlistrik-v7";
+const CACHE_NAME = "pengukuranlistrik-v8";
 
 const PRECACHE_URLS = [
   "./",
@@ -67,6 +67,31 @@ self.addEventListener("fetch", (event) => {
         .catch(async () => {
           const cached = await caches.match(request);
           return cached || (await caches.match("./offline.html"));
+        })
+    );
+    return;
+  }
+
+  const isFreshCriticalAsset =
+    request.destination === "script" ||
+    request.destination === "style" ||
+    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".css");
+
+  // CSS/JS: network-first, so mobile receives the latest code immediately after redeploy.
+  if (isFreshCriticalAsset) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cache = await caches.open(CACHE_NAME);
+          return (await cache.match(request, { ignoreSearch: true })) || (await caches.match(request, { ignoreSearch: true })) || Response.error();
         })
     );
     return;

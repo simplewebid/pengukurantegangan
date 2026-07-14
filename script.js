@@ -2,13 +2,20 @@
     // PHASE 1 — INTERACTION CONTROLLERS
     // =========================================================
 
-    // Loading screen auto dismiss after 2 seconds
-    window.addEventListener("load", () => {
+    // Loading screen: hide early on DOM ready, with a hard fallback for iOS WebKit.
+    const hideLoaderScreen = () => {
       const loader = document.getElementById("loaderScreen");
-      setTimeout(() => {
-        loader.classList.add("is-hidden");
-      }, 2000);
-    });
+      if (!loader || loader.classList.contains("is-hidden")) return;
+      loader.classList.add("is-hidden");
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => setTimeout(hideLoaderScreen, 700), { once: true });
+    } else {
+      setTimeout(hideLoaderScreen, 700);
+    }
+    window.addEventListener("load", () => setTimeout(hideLoaderScreen, 250), { once: true });
+    setTimeout(hideLoaderScreen, 3500);
 
     // Scroll depth progress bar
     const progressBar = document.getElementById("scrollProgressBar");
@@ -182,9 +189,9 @@
               });
             });
 
-            // Reload once the new SW takes control so fresh CSS/JS apply.
+            // Do not force reload on controllerchange. iOS WebKit can loop reloads here.
             navigator.serviceWorker.addEventListener('controllerchange', () => {
-              window.location.reload();
+              try { sessionStorage.setItem('swControllerChanged', '1'); } catch (_) {}
             });
           })
           .catch(() => {

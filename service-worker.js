@@ -1,7 +1,7 @@
 /* Simple offline-first service worker (public site, no login). */
 
 // Bump this when you deploy changes, so clients refresh cached assets.
-const CACHE_NAME = "pengukuranlistrik-v8";
+const CACHE_NAME = "pengukuranlistrik-v9";
 
 const PRECACHE_URLS = [
   "./",
